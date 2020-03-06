@@ -60,18 +60,20 @@ local generate_production_structure = function(structure_data)
   structure_ent.name = structure_data.name
   structure_ent.resource_categories = {structure_data.category}
   structure_ent.icon = "__pu-supply-chain__/graphics/icons/generic-icon.png"
-  structure_ent.animations = {
-    frame_count = 1,
-    filename = "__pu-supply-chain__/graphics/entity/generic-three-by-three.png",
-    width = 96,
-    height = 96,
-  }
+  --structure_ent.animation = {
+  --  frame_count = 1,
+  --  filename = "__pu-supply-chain__/graphics/entity/generic-three-by-three.png",
+  --  width = 96,
+  --  height = 96,
+  --}
   structure_ent.crafting_categories = {structure_data.name}
   structure_ent.minable.results = structure_data.cost
   structure_ent.minable.result = nil
   structure_ent.energy_source = {
     type = "void"
   }
+  structure_ent.allowed_effects = {'speed'}
+  structure_ent.module_specification = {module_slots= 1}
 
   local structure_item = util.table.deepcopy(data.raw["item"]["stone-furnace"])
   structure_item.name = structure_data.name

@@ -122,17 +122,19 @@ local generate_mining_structure = function(miner_data)
   local miner_ent = util.table.deepcopy(data.raw["mining-drill"]["electric-mining-drill"])
   miner_ent.name = miner_data.name
   miner_ent.resource_categories = {miner_data.category}
-  miner_ent.animations = {
-    frame_count = 1,
-    filename = "__pu-supply-chain__/graphics/entity/generic-three-by-three.png",
-    width = 96,
-    height = 96,
-  }
+  --miner_ent.animations = {
+  --  frame_count = 1,
+  --  filename = "__pu-supply-chain__/graphics/entity/generic-three-by-three.png",
+  --  width = 96,
+  --  height = 96,
+  --}
   miner_ent.minable.results = miner_data.cost
   miner_ent.minable.result = nil
   miner_ent.energy_source = {
     type = "void"
   }
+  miner_ent.allowed_effects = {'speed'}
+  miner_ent.module_specification = {module_slots= 1}
 
   local miner_item = util.table.deepcopy(data.raw["item"]["stone-furnace"])
   miner_item.name = miner_data.name
