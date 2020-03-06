@@ -59,7 +59,7 @@ local generate_production_structure = function(structure_data)
   local structure_ent = util.table.deepcopy(data.raw['assembling-machine']['assembling-machine-1'])
   structure_ent.name = structure_data.name
   structure_ent.resource_categories = {structure_data.category}
-  structure_ent.icon = "__pu-supply-chain__/graphics/icons/generic-icon.png"
+  structure_ent.icon = "__pu-supply-chain__/graphics/icons/structure.png"
   --structure_ent.animation = {
   --  frame_count = 1,
   --  filename = "__pu-supply-chain__/graphics/entity/generic-three-by-three.png",
@@ -78,7 +78,7 @@ local generate_production_structure = function(structure_data)
   local structure_item = util.table.deepcopy(data.raw["item"]["stone-furnace"])
   structure_item.name = structure_data.name
   structure_item.place_result = structure_data.name
-  structure_item.icon = "__pu-supply-chain__/graphics/icons/generic-icon.png"
+  structure_item.icon = "__pu-supply-chain__/graphics/icons/structure.png"
   structure_item.subgroup = tier
 
   local structure_recipe = {
