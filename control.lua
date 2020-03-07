@@ -7,6 +7,10 @@ local on_game_created_from_scenario = function()
     if recipe_lua.prototype.group.name == 'production' or
       recipe_lua.prototype.group.name == 'combat' or
       recipe_lua.prototype.group.name == 'logistics' or
+      recipe_lua.prototype.subgroup.name == 'settler' or
+      recipe_lua.prototype.subgroup.name == 'technician' or
+      recipe_lua.prototype.subgroup.name == 'engineer' or
+      recipe_lua.prototype.subgroup.name == 'scientist' or
       recipe_lua.prototype.group.name == 'intermediate-products' then
       recipe_lua.enabled = false
     end

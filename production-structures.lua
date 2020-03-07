@@ -50,11 +50,11 @@ local structures = data_import.structures
 
 local generate_production_structure = function(structure_data)
   local tier = "core"
-  if structure_data.staff[5] > 0 then tier = "scientist" end
-  if structure_data.staff[4] > 0 then tier = "engineer" end
-  if structure_data.staff[3] > 0 then tier = "technician" end
-  if structure_data.staff[2] > 0 then tier = "settler" end
-  if structure_data.staff[1] > 0 then tier = "pioneer" end
+  if structure_data.staff[5] > 0 then tier = "scientist"
+  elseif structure_data.staff[4] > 0 then tier = "engineer"
+  elseif structure_data.staff[3] > 0 then tier = "technician"
+  elseif structure_data.staff[2] > 0 then tier = "settler"
+  elseif structure_data.staff[1] > 0 then tier = "pioneer" end
 
   local structure_ent = util.table.deepcopy(data.raw['assembling-machine']['assembling-machine-1'])
   structure_ent.name = structure_data.name

@@ -9,13 +9,16 @@ require('recipes')
 require('production-structures')
 
 --create consumable items (modules with increasing speed bonus)
---create consumable module factory
 
 --generate core module (void roboport)
+local core_ent = util.table.deepcopy(data.raw['roboport']['roboport'])
+--{name="cm",cost={{"lse",4},{"tru",8},{"psl",12},{"lde",4},{"lta",4},{"mcg",100},},staff={0,25,15,0,0,}},
+
 --generate storage (logistic storage chest)
+--{name="sto",cost={{"bbh",6},{"bse",2},{"bde",6},{"mcg",60},},staff={50,0,0,0,0,}},
 
 --generate void energy inserter and belt
-local inserter_ent = util.table.deepcopy(data.raw['inserter']['filter-inserter'])
+local inserter_ent = util.table.deepcopy(data.raw['inserter']['fast-inserter'])
 inserter_ent.name = "pu-inserter"
 inserter_ent.icon = "__pu-supply-chain__/graphics/icons/generic-icon.png"
 inserter_ent.minable.result = "pu-inserter"
@@ -23,7 +26,7 @@ inserter_ent.energy_source = {
   type = "void"
 }
 
-local inserter_item = util.table.deepcopy(data.raw["item"]["filter-inserter"])
+local inserter_item = util.table.deepcopy(data.raw["item"]["fast-inserter"])
 inserter_item.name = "pu-inserter"
 inserter_item.place_result = "pu-inserter"
 inserter_item.subgroup = "core"
@@ -31,7 +34,8 @@ inserter_item.subgroup = "core"
 local inserter_recipe = {
   type = "recipe",
   name = "pu-inserter",
-  ingredients = {{'mcg',10}},
+  ingredients = {{'mcg',5}},
+  energy = 0.1,
   result = "pu-inserter",
 }
 
@@ -47,7 +51,8 @@ belt_item.subgroup = "core"
 local belt_recipe = {
   type = "recipe",
   name = "pu-transport-belt",
-  ingredients = {{'mcg',5}},
+  ingredients = {{'mcg',1}},
+  energy = 0.1,
   result = "pu-transport-belt",
 }
 
@@ -63,7 +68,8 @@ underground_belt_item.subgroup = "core"
 local underground_belt_recipe = {
   type = "recipe",
   name = "pu-underground-belt",
-  ingredients = {{'mcg',50}},
+  ingredients = {{'mcg',10}},
+  energy = 0.1,
   result = "pu-underground-belt",
 }
 
@@ -79,8 +85,9 @@ splitter_item.subgroup = "core"
 local splitter_recipe = {
   type = "recipe",
   name = "pu-splitter",
-  ingredients = {{'mcg',50}},
+  ingredients = {{'mcg',10}},
   result = "pu-splitter",
+  energy = 0.1,
 }
 
 data:extend({belt_ent,belt_item,belt_recipe,underground_belt_ent,underground_belt_item,underground_belt_recipe})
