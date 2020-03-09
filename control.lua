@@ -17,4 +17,18 @@ local on_game_created_from_scenario = function()
   end
 end
 
+local on_player_created = function(event)
+  local player = game.players[event.player_index]
+  player.get_main_inventory().clear()
+  player.insert('mcg')
+  player.insert('mcg')
+  player.insert('bse')
+  player.insert('bse')
+  player.insert('bbh')
+  player.insert('bta')
+  player.insert('bde')
+end
+
+
 script.on_event(defines.events.on_game_created_from_scenario, on_game_created_from_scenario)
+script.on_event(defines.events.on_player_created, on_player_created)
