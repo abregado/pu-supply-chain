@@ -73,6 +73,7 @@ local raw_patch = function(res_cat_name,item_name)
       variation_count = 1,
     }
   }
+  deposit_entity.randomize_visual_position = false
   deposit_entity.autoplace = resource_autoplace.resource_autoplace_settings({
     name = item_name,
     order = item_name,
@@ -90,8 +91,8 @@ local raw_patch = function(res_cat_name,item_name)
   deposit_entity.category = res_cat_name
   deposit_entity.minable.result = item_name
   deposit_entity.map_generator_bounding_box = {{-2.5, -2.5}, {2.5, 2.5}}
-  deposit_entity.collision_box = {{-2.5, -2.5}, {2.5, 2.5}}
-  deposit_entity.selection_box = {{-2.5, -2.5}, {2.5, 2.5}}
+  deposit_entity.collision_box = {{-1, -1}, {1, 1}}
+  deposit_entity.selection_box = {{-1, -1}, {1, 1}}
   deposit_entity.icon = "__pu-supply-chain__/graphics/icons/"..item_name..".png"
   deposit_entity.icon_size = 64
   deposit_entity.name = item_name
