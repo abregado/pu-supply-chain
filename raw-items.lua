@@ -65,10 +65,10 @@ local raw_patch = function(res_cat_name,item_name)
   deposit_entity.stage_counts = {1}
   deposit_entity.stages = {
     sheet = {
-      filename = "__pu-supply-chain__/graphics/entity/generic-three-by-three.png",
+      filename = "__pu-supply-chain__/graphics/icons/"..item_name..".png",
       priority = "extra-high",
-      width = 32,
-      height = 32,
+      width = 64,
+      height = 64,
       frame_count = 1,
       variation_count = 1,
     }
@@ -92,7 +92,8 @@ local raw_patch = function(res_cat_name,item_name)
   deposit_entity.map_generator_bounding_box = {{-2.5, -2.5}, {2.5, 2.5}}
   deposit_entity.collision_box = {{-2.5, -2.5}, {2.5, 2.5}}
   deposit_entity.selection_box = {{-2.5, -2.5}, {2.5, 2.5}}
-  deposit_entity.icon = "__pu-supply-chain__/graphics/icons/generic-icon.png"
+  deposit_entity.icon = "__pu-supply-chain__/graphics/icons/"..item_name..".png"
+  deposit_entity.icon_size = 64
   deposit_entity.name = item_name
 
   --local ore_item =  {
@@ -131,6 +132,8 @@ local generate_mining_structure = function(miner_data)
   --  height = 96,
   --}
   miner_ent.minable.results = miner_data.cost
+  miner_ent.icon = "__pu-supply-chain__/graphics/icons/"..miner_data.name..".png"
+  miner_ent.icon_size = 64
   miner_ent.minable.result = nil
   miner_ent.energy_source = {
     type = "void"
@@ -141,7 +144,8 @@ local generate_mining_structure = function(miner_data)
   local miner_item = util.table.deepcopy(data.raw["item"]["stone-furnace"])
   miner_item.name = miner_data.name
   miner_item.place_result = miner_data.name
-  miner_item.icon = "__pu-supply-chain__/graphics/icons/structure.png"
+  miner_item.icon = "__pu-supply-chain__/graphics/icons/"..miner_data.name..".png"
+  miner_item.icon_size = 64
   miner_item.subgroup = "pioneer"
 
   local miner_recipe = {

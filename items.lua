@@ -23,7 +23,8 @@ local new_basic_item = function(item_data)
   local new_basic_item =   {
     type = "item",
     name = item_data.name,
-    icon = "__pu-supply-chain__/graphics/icons/"..item_data.category..".png",
+    icon = "__pu-supply-chain__/graphics/icons/"..item_data.name..".png",
+    --icon = "__pu-supply-chain__/graphics/icons/"..item_data.category..".png",
     icon_size = 64, icon_mipmaps = 4,
     subgroup = item_data.category,
     order = "e["..item_data.name.."]",

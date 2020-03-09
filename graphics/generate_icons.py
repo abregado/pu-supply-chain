@@ -1,9 +1,10 @@
 import csv
 import math
 
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image, ImageDraw, ImageFont, ImageColor
 
 font = ImageFont.truetype('TitilliumWeb-SemiBold.ttf', 22)
+color = ImageColor.getrgb("white")
 
 with open('icon-names.csv') as csvfile:
     readCSV = csv.reader(csvfile, delimiter=',')
@@ -17,7 +18,7 @@ with open('icon-names.csv') as csvfile:
         size = draw.textsize(row[0], font)
         print(size)
         pos = (32 - (size[0]/2), 26 - size[1]/2)
-        draw.text(pos, row[0], (0, 0, 0, 1), font)
+        draw.text(pos, row[0], color, font)
 
         img.save("icons/" + str(row[0]).lower() + ".png")
 
