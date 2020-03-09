@@ -11,7 +11,7 @@ with open('icon-names.csv') as csvfile:
 
         draw = ImageDraw.Draw(img)
         draw.text((0,0),row[0],(0,0,0,1))
-        
+
 
 
     print(icons)
