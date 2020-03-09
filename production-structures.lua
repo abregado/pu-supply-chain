@@ -61,12 +61,12 @@ local generate_production_structure = function(structure_data)
   structure_ent.resource_categories = {structure_data.category}
   structure_ent.icon = "__pu-supply-chain__/graphics/icons/"..structure_data.name..".png"
   structure_ent.icon_size = 64
-  --structure_ent.animation = {
-  --  frame_count = 1,
-  --  filename = "__pu-supply-chain__/graphics/entity/generic-three-by-three.png",
-  --  width = 96,
-  --  height = 96,
-  --}
+  structure_ent.animation = {
+    frame_count = 1,
+    filename = "__pu-supply-chain__/graphics/entity/"..structure_data.name..".png",
+    width = 96,
+    height = 96,
+  }
   structure_ent.crafting_categories = {structure_data.name}
   structure_ent.minable.results = structure_data.cost
   structure_ent.minable.result = nil
