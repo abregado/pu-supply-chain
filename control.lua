@@ -18,6 +18,8 @@ local on_game_created_from_scenario = function()
       recipe_lua.enabled = false
     end
   end
+  
+  game.forces.player.inserter_stack_size_bonus = 9
   maint.on_load()
 end
 

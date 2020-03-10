@@ -55,9 +55,14 @@ local create_maint_gui = function(player)
         name = 'population'
     })
     frame.add({
+        type = 'label',
+        caption = {"maint-gui.hapiness",0},
+        name = 'happiness'
+    })
+    frame.add({
         type = 'table',
         name = 'costs_table',
-        column_count = 3
+        column_count = 4
     })
 end
 
@@ -77,6 +82,11 @@ local add_cost_headers = function(gui)
         caption = {"maint-gui.item-cost-header"},
         name = "cost_quant_header"
     })
+    gui.add({
+        type = "label",
+        caption = {"maint-gui.storage-header"},
+        name = "cost_stored_header"
+    })
 end
 
 local update_maint_gui = function(player,colony)
@@ -84,6 +94,7 @@ local update_maint_gui = function(player,colony)
         create_maint_gui(player)
     end
     local pop_label = player.gui.left.maint_gui.population
+    local hap_label = player.gui.left.maint_gui.happiness
     local cost_table = player.gui.left.maint_gui.costs_table
     cost_table.clear()
     add_cost_headers(cost_table)
@@ -101,9 +112,14 @@ local update_maint_gui = function(player,colony)
                 type = 'label',
                 caption = tostring(cost)
             })
+            cost_table.add({
+                type = 'label',
+                caption = colony.core.get_inventory(defines.inventory.chest).get_item_count(name)
+            })
         end
     end
     pop_label.caption = {"maint-gui.population",colony.population[1],colony.population[2],colony.population[3],colony.population[4],colony.population[5]}
+    hap_label.caption = {"maint-gui.happiness",(colony.work_state/5*100)}
 end
 
 local safe_remove = function(inventory,stack)
@@ -115,8 +131,10 @@ end
 local apply_work_state = function(colony)
     for _, structure in pairs(colony.structures) do
         local mod_inv = structure.get_module_inventory()
-        mod_inv.clear()
-        mod_inv.insert(work_state_modules[colony.work_state])
+        if mod_inv then
+            mod_inv.clear()
+            mod_inv.insert(work_state_modules[colony.work_state])
+        end
     end
     local inventory = colony.core.get_inventory(defines.inventory.chest)
     local production_stats = game.forces.player.item_production_statistics
@@ -178,6 +196,7 @@ local calc_colony_population = function(colony)
     local total_workers = {0,0,0,0,0}
     for _, structure in pairs(colony.structures) do
         local workers = data_import.structures[structure.name].staff
+        structure.active = true
         for index, population in pairs(workers) do
             total_workers[index] = total_workers[index] + population
         end
@@ -232,6 +251,7 @@ maint.add_entity = function(entity)
         if colony then
             table.insert(colony.structures, entity)
             game.print("added structure to colony")
+            entity.active = false
             return true
         end
         return false
@@ -249,6 +269,7 @@ maint.remove_entity = function(entity)
             end
         end
     end
+    --TODO: remove modules from player
     return false
 end
 
