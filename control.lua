@@ -1,3 +1,6 @@
+data_import = require('data-import')
+local maint = require('maint')
+
 local on_game_created_from_scenario = function()
   for tech_name, tech_lua in pairs(game.forces.player.technologies) do
     tech_lua.enabled = false
@@ -15,10 +18,14 @@ local on_game_created_from_scenario = function()
       recipe_lua.enabled = false
     end
   end
+  maint.on_load()
 end
 
 local on_player_created = function(event)
   local player = game.players[event.player_index]
+  local old_char = player.character
+  player.character = nil
+  old_char.destroy()
   player.get_main_inventory().clear()
   local starting_items = {{"lse",4},{"tru",8},{"psl",12},{"lde",4},{"lta",4},{"mcg",1000},{'bse',100},{'bta',20,},{'bbh',30},{'bde',50}}
   for _, stack in pairs(starting_items) do
@@ -31,15 +38,27 @@ local on_player_created = function(event)
 end
 
 local on_built_entity = function(event)
+  maint.add_entity(event.created_entity)
+
   if event.created_entity.name == 'pu-inserter' or
-          event.created_entity.name == 'pu-transport-belt' or
-          event.created_entity.name == 'pu-splitter' or
-          event.created_entity.name == 'pu-underground-belt' then
+  event.created_entity.name == 'pu-transport-belt' or
+  event.created_entity.name == 'pu-splitter' or
+  event.created_entity.name == 'pu-underground-belt' then
     game.players[event.player_index].insert(event.stack)
   end
+
 end
 
+local on_player_mined_entity = function(event)
+  maint.remove_entity(event.entity)
+end
+
+local on_tick = function(event)
+  maint.update(event.tick)
+end
 
 script.on_event(defines.events.on_game_created_from_scenario, on_game_created_from_scenario)
 script.on_event(defines.events.on_player_created, on_player_created)
 script.on_event(defines.events.on_built_entity, on_built_entity)
+script.on_event(defines.events.on_player_mined_entity, on_player_mined_entity)
+script.on_event(defines.events.on_tick, on_tick)

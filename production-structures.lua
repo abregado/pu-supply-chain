@@ -94,5 +94,7 @@ local generate_production_structure = function(structure_data)
 end
 
 for _, structure_data in pairs(structures) do
-  generate_production_structure(structure_data)
+  if not structure_data.skip then
+    generate_production_structure(structure_data)
+  end
 end

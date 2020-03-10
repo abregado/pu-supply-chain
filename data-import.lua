@@ -1,4 +1,4 @@
-data_import = {}
+local data_import = {}
 data_import.materials = {
   {name="alg",size=1,category="agricultural"},
   {name="bea",size=1,category="agricultural"},
@@ -215,60 +215,62 @@ data_import.materials = {
   {name="tk",size=1.89,category="textiles"},
 }
 
-data_import.structures = {
-  --{name="adm",cost={{"lse",25},{"lbh",16},{"lde",32},{"rta",5},{"bmf",2},{"bws",10},{"mcg",1600},},staff={0,0,0,0,0}},
-  {name="aml",cost={{"ade",6},{"abh",12},{"ase",6},{"mcg",220},},staff={0,0,20,30,0,}},
-  {name="apf",cost={{"abh",6},{"ade",12},{"ase",12},{"mcg",240},},staff={0,0,60,20,0,}},
-  {name="asm",cost={{"lbh",4},{"lde",2},{"lse",6},{"lta",2},{"mcg",200},},staff={0,0,50,20,0,}},
-  {name="bmp",cost={{"bse",6},{"bbh",4},{"bde",2},{"mcg",48},},staff={100,0,0,0,0,}},
-  --{name="cfl",cost={{"rbh",24},{"rde",24},{"rse",16},{"rta",32},{"sp",32},{"ffc",1},{"tac",6},{"mcg",400},},staff={100,0,0,0,0,}},
-  {name="chp",cost={{"bbh",3},{"bse",3},{"bde",3},{"tru",4},{"mcg",72},},staff={20,60,0,0,0,}},
-  --{name="cim",cost={{"rbh",32},{"rde",16},{"rse",16},{"rta",16},{"sp",36},{"cru",4},{"lis",1},{"mcg",400},},staff={20,60,0,0,0,}},
-  {name="clf",cost={{"lse",2},{"lde",4},{"bse",2},{"tru",8},{"mcg",148},},staff={0,40,0,0,0,}},
-  {name="clr",cost={{"lbh",8},{"lde",6},{"lse",4},{"lta",4},{"mcg",108},},staff={0,25,15,0,0,}},
-  --{name="cm",cost={{"lse",4},{"tru",8},{"psl",12},{"lde",4},{"lta",4},{"mcg",100},},staff={0,25,15,0,0,}},
-  --{name="cog",cost={{"lbh",32},{"lde",16},{"lse",24},{"lta",32},{"sp",32},{"bws",16},{"bmf",1},{"mcg",4000},},staff={0,25,15,0,0,}},
-  --{name="cor",cost={{"rbh",16},{"rde",32},{"rse",32},{"rta",8},{"sp",24},{"bws",8},{"bmf",2},{"mcg",400},},staff={50,0,0,0,0,}},
-  --{name="cte",cost={{"rbh",32},{"rde",32},{"rse",32},{"rta",8},{"sp",44},{"cc",5},{"lis",1},{"mcg",400},},staff={50,0,0,0,0,}},
-  {name="eep",cost={{"rse",12},{"rbh",6},{"rde",6},{"rta",2},{"mcg",800},},staff={0,0,0,60,40,}},
-  {name="elp",cost={{"rde",3},{"rbh",6},{"rse",6},{"mcg",140},},staff={0,0,40,0,0,}},
-  {name="fmt",cost={{"lbh",2},{"lde",2},{"lse",2},{"tru",5},{"mcg",100},},staff={0,60,0,0,0,}},
-  {name="fp",cost={{"bse",3},{"bbh",3},{"bde",3},{"mcg",48},},staff={40,0,0,0,0,}},
-  {name="frm",cost={{"bse",4},{"bbh",4},{"mcg",120},},staff={50,0,0,0,0,}},
-  {name="fs",cost={{"bbh",2},{"lbh",2},{"tru",4},{"lde",2},{"mcg",100},},staff={0,50,0,0,0,}},
-  {name="gf",cost={{"lse",6},{"lbh",4},{"tru",5},{"mcg",108},},staff={0,80,0,0,0,}},
-  --{name="hb1",cost={{"bse",2},{"bbh",4},{"bde",2},{"bta",1},{"mcg",40},},staff={0,80,0,0,0,}},
-  --{name="hb2",cost={{"bbh",2},{"bde",2},{"bse",2},{"bta",2},{"tru",2},{"mcg",48},},staff={0,80,0,0,0,}},
-  --{name="hb3",cost={{"rbh",4},{"rde",4},{"rse",4},{"rta",12},{"mcg",80},},staff={0,80,0,0,0,}},
-  --{name="hb4",cost={{"abh",6},{"ade",8},{"ase",4},{"ata",12},{"mcg",120},},staff={0,80,0,0,0,}},
-  --{name="hb5",cost={{"abh",8},{"ade",8},{"ase",6},{"ata",12},{"mcg",64},},staff={0,80,0,0,0,}},
-  {name="hbb",cost={{"bbh",4},{"bde",4},{"lta",2},{"lse",2},{"mcg",60},},staff={0,80,0,0,0,}},
-  {name="hbc",cost={{"lbh",3},{"lde",2},{"rse",2},{"rta",2},{"tru",2},{"mcg",88},},staff={0,80,0,0,0,}},
-  {name="hbl",cost={{"abh",16},{"ade",16},{"ase",12},{"ata",32},{"mcg",48},},staff={0,80,0,0,0,}},
-  {name="hbm",cost={{"rbh",3},{"rde",3},{"ase",6},{"ata",6},{"mcg",100},},staff={0,80,0,0,0,}},
-  {name="hyf",cost={{"bse",2},{"lbh",4},{"mhl",16},{"tru",4},{"mcg",60},},staff={40,20,0,0,0,}},
-  {name="inc",cost={{"bse",4},{"bbh",3},{"bta",1},{"bde",2},{"mcg",40},},staff={40,0,0,0,0,}},
-  {name="ivp",cost={{"rbh",6},{"rde",4},{"rse",4},{"rta",3},{"mcg",128},},staff={0,0,70,0,0,}},
-  {name="lbo",cost={{"lse",6},{"lde",12},{"mcg",100},},staff={0,20,70,0,0,}},
-  --{name="lm",cost={{"bse",12},{"bde",8},{"bbh",8},{"lta",8},{"tru",10},{"mcg",2000},},staff={0,20,70,0,0,}},
-  {name="mca",cost={{"rbh",4},{"rde",8},{"rse",4},{"mcg",140},},staff={0,20,20,0,0,}},
-  {name="orc",cost={{"ase",8},{"ata",4},{"mcg",480},},staff={0,70,10,0,0,}},
-  {name="pol",cost={{"lbh",8},{"bse",4},{"bde",4},{"tru",2},{"mcg",60},},staff={10,25,0,0,0,}},
-  {name="pp1",cost={{"bse",4},{"bbh",3},{"bde",3},{"mcg",76},},staff={80,0,0,0,0,}},
-  {name="pp2",cost={{"bbh",6},{"bse",3},{"bde",6},{"tru",4},{"mcg",100},},staff={25,25,0,0,0,}},
-  {name="pp3",cost={{"lse",4},{"lde",8},{"mcg",128},},staff={0,20,40,0,0,}},
-  {name="pp4",cost={{"rse",8},{"rbh",6},{"rde",6},{"mcg",160},},staff={0,0,40,30,0,}},
-  {name="ppf",cost={{"lbh",4},{"bse",2},{"lde",2},{"tru",2},{"mcg",64},},staff={0,50,0,0,0,}},
-  {name="ref",cost={{"bse",6},{"bbh",6},{"bde",6},{"mcg",100},},staff={60,20,0,0,0,}},
-  {name="sca",cost={{"rbh",3},{"rde",6},{"rse",2},{"mcg",140},},staff={0,0,30,0,0,}},
-  {name="sd",cost={{"abh",7},{"ase",14},{"ade",7},{"ata",14},{"mcg",400},},staff={0,0,0,60,0,}},
-  {name="sl",cost={{"rse",16},{"rbh",16},{"lde",32},{"lta",16},{"mcg",800},},staff={0,0,0,0,70,}},
-  {name="sme",cost={{"bse",6},{"bbh",4},{"bde",4},{"mcg",68},},staff={50,0,0,0,0,}},
-  --{name="sto",cost={{"bbh",6},{"bse",2},{"bde",6},{"mcg",60},},staff={50,0,0,0,0,}},
-  {name="tnp",cost={{"lbh",6},{"lde",8},{"lse",16},{"mcg",240},},staff={0,0,80,0,0,}},
-  {name="wel",cost={{"bbh",8},{"bse",6},{"mcg",76},},staff={70,0,0,0,0,}},
-  {name="wpl",cost={{"lbh",6},{"lse",3},{"bde",2},{"tru",6},{"mcg",160},},staff={0,70,0,0,0,}},
-}
+data_import.structures = {}
+--data_import.structures["adm"]={name="adm",cost={{"lse",25},{"lbh",16},{"lde",32},{"rta",5},{"bmf",2},{"bws",10},{"mcg",1600},},staff={0,0,0,0,0}}
+--data_import.structures["cfl"]={name="cfl",cost={{"rbh",24},{"rde",24},{"rse",16},{"rta",32},{"sp",32},{"ffc",1},{"tac",6},{"mcg",400},},staff={100,0,0,0,0,}}
+--data_import.structures["cor"]={name="cor",cost={{"rbh",16},{"rde",32},{"rse",32},{"rta",8},{"sp",24},{"bws",8},{"bmf",2},{"mcg",400},},staff={50,0,0,0,0,}}
+--data_import.structures["cte"]={name="cte",cost={{"rbh",32},{"rde",32},{"rse",32},{"rta",8},{"sp",44},{"cc",5},{"lis",1},{"mcg",400},},staff={50,0,0,0,0,}}
+data_import.structures["cm"]={name="cm",cost={{"lse",4},{"tru",8},{"psl",12},{"lde",4},{"lta",4},{"mcg",100},},staff={0,25,15,0,0,},skip=true}
+data_import.structures["col"]={name="col",cost={{"bse",16},{"mcg",60},},staff={50,0,0,0,0,},skip=true}
+data_import.structures["ext"]={name="ext",cost={{"bse",16},{"mcg",100},},staff={60,0,0,0,0,},skip=true}
+data_import.structures["rig"]={name="rig",cost={{"bse",12},{"mcg",40},},staff={30,0,0,0,0,},skip=true}
+data_import.structures["sto"]={name="sto",cost={{"bbh",6},{"bse",2},{"bde",6},{"mcg",60},},staff={50,0,0,0,0,},skip=true}
+--data_import.structures["hb1"]={name="hb1",cost={{"bse",2},{"bbh",4},{"bde",2},{"bta",1},{"mcg",40},},staff={0,80,0,0,0,}}
+--data_import.structures["hb2"]={name="hb2",cost={{"bbh",2},{"bde",2},{"bse",2},{"bta",2},{"tru",2},{"mcg",48},},staff={0,80,0,0,0,}}
+--data_import.structures["hb3"]={name="hb3",cost={{"rbh",4},{"rde",4},{"rse",4},{"rta",12},{"mcg",80},},staff={0,80,0,0,0,}}
+--data_import.structures["hb4"]={name="hb4",cost={{"abh",6},{"ade",8},{"ase",4},{"ata",12},{"mcg",120},},staff={0,80,0,0,0,}}
+--data_import.structures["hb5"]={name="hb5",cost={{"abh",8},{"ade",8},{"ase",6},{"ata",12},{"mcg",64},},staff={0,80,0,0,0,}}
+--data_import.structures["hbb"]={name="hbb",cost={{"bbh",4},{"bde",4},{"lta",2},{"lse",2},{"mcg",60},},staff={0,80,0,0,0,}}
+--data_import.structures["hbc"]={name="hbc",cost={{"lbh",3},{"lde",2},{"rse",2},{"rta",2},{"tru",2},{"mcg",88},},staff={0,80,0,0,0,}}
+--data_import.structures["hbl"]={name="hbl",cost={{"abh",16},{"ade",16},{"ase",12},{"ata",32},{"mcg",48},},staff={0,80,0,0,0,}}
+--data_import.structures["hbm"]={name="hbm",cost={{"rbh",3},{"rde",3},{"ase",6},{"ata",6},{"mcg",100},},staff={0,80,0,0,0,}}
+data_import.structures["aml"]={name="aml",cost={{"ade",6},{"abh",12},{"ase",6},{"mcg",220},},staff={0,0,20,30,0,}}
+data_import.structures["apf"]={name="apf",cost={{"abh",6},{"ade",12},{"ase",12},{"mcg",240},},staff={0,0,60,20,0,}}
+data_import.structures["asm"]={name="asm",cost={{"lbh",4},{"lde",2},{"lse",6},{"lta",2},{"mcg",200},},staff={0,0,50,20,0,}}
+data_import.structures["bmp"]={name="bmp",cost={{"bse",6},{"bbh",4},{"bde",2},{"mcg",48},},staff={100,0,0,0,0,}}
+data_import.structures["chp"]={name="chp",cost={{"bbh",3},{"bse",3},{"bde",3},{"tru",4},{"mcg",72},},staff={20,60,0,0,0,}}
+data_import.structures["cim"]={name="cim",cost={{"rbh",32},{"rde",16},{"rse",16},{"rta",16},{"sp",36},{"cru",4},{"lis",1},{"mcg",400},},staff={20,60,0,0,0,}}
+data_import.structures["clf"]={name="clf",cost={{"lse",2},{"lde",4},{"bse",2},{"tru",8},{"mcg",148},},staff={0,40,0,0,0,}}
+data_import.structures["clr"]={name="clr",cost={{"lbh",8},{"lde",6},{"lse",4},{"lta",4},{"mcg",108},},staff={0,25,15,0,0,}}
+data_import.structures["cog"]={name="cog",cost={{"lbh",32},{"lde",16},{"lse",24},{"lta",32},{"sp",32},{"bws",16},{"bmf",1},{"mcg",4000},},staff={0,25,15,0,0,}}
+data_import.structures["eep"]={name="eep",cost={{"rse",12},{"rbh",6},{"rde",6},{"rta",2},{"mcg",800},},staff={0,0,0,60,40,}}
+data_import.structures["elp"]={name="elp",cost={{"rde",3},{"rbh",6},{"rse",6},{"mcg",140},},staff={0,0,40,0,0,}}
+data_import.structures["fmt"]={name="fmt",cost={{"lbh",2},{"lde",2},{"lse",2},{"tru",5},{"mcg",100},},staff={0,60,0,0,0,}}
+data_import.structures["fp"]={name="fp",cost={{"bse",3},{"bbh",3},{"bde",3},{"mcg",48},},staff={40,0,0,0,0,}}
+data_import.structures["frm"]={name="frm",cost={{"bse",4},{"bbh",4},{"mcg",120},},staff={50,0,0,0,0,}}
+data_import.structures["fs"]={name="fs",cost={{"bbh",2},{"lbh",2},{"tru",4},{"lde",2},{"mcg",100},},staff={0,50,0,0,0,}}
+data_import.structures["gf"]={name="gf",cost={{"lse",6},{"lbh",4},{"tru",5},{"mcg",108},},staff={0,80,0,0,0,}}
+data_import.structures["hyf"]={name="hyf",cost={{"bse",2},{"lbh",4},{"mhl",16},{"tru",4},{"mcg",60},},staff={40,20,0,0,0,}}
+data_import.structures["inc"]={name="inc",cost={{"bse",4},{"bbh",3},{"bta",1},{"bde",2},{"mcg",40},},staff={40,0,0,0,0,}}
+data_import.structures["ivp"]={name="ivp",cost={{"rbh",6},{"rde",4},{"rse",4},{"rta",3},{"mcg",128},},staff={0,0,70,0,0,}}
+data_import.structures["lbo"]={name="lbo",cost={{"lse",6},{"lde",12},{"mcg",100},},staff={0,20,70,0,0,}}
+data_import.structures["lm"]={name="lm",cost={{"bse",12},{"bde",8},{"bbh",8},{"lta",8},{"tru",10},{"mcg",2000},},staff={0,20,70,0,0,}}
+data_import.structures["mca"]={name="mca",cost={{"rbh",4},{"rde",8},{"rse",4},{"mcg",140},},staff={0,20,20,0,0,}}
+data_import.structures["orc"]={name="orc",cost={{"ase",8},{"ata",4},{"mcg",480},},staff={0,70,10,0,0,}}
+data_import.structures["pol"]={name="pol",cost={{"lbh",8},{"bse",4},{"bde",4},{"tru",2},{"mcg",60},},staff={10,25,0,0,0,}}
+data_import.structures["pp1"]={name="pp1",cost={{"bse",4},{"bbh",3},{"bde",3},{"mcg",76},},staff={80,0,0,0,0,}}
+data_import.structures["pp2"]={name="pp2",cost={{"bbh",6},{"bse",3},{"bde",6},{"tru",4},{"mcg",100},},staff={25,25,0,0,0,}}
+data_import.structures["pp3"]={name="pp3",cost={{"lse",4},{"lde",8},{"mcg",128},},staff={0,20,40,0,0,}}
+data_import.structures["pp4"]={name="pp4",cost={{"rse",8},{"rbh",6},{"rde",6},{"mcg",160},},staff={0,0,40,30,0,}}
+data_import.structures["ppf"]={name="ppf",cost={{"lbh",4},{"bse",2},{"lde",2},{"tru",2},{"mcg",64},},staff={0,50,0,0,0,}}
+data_import.structures["ref"]={name="ref",cost={{"bse",6},{"bbh",6},{"bde",6},{"mcg",100},},staff={60,20,0,0,0,}}
+data_import.structures["sca"]={name="sca",cost={{"rbh",3},{"rde",6},{"rse",2},{"mcg",140},},staff={0,0,30,0,0,}}
+data_import.structures["sd"]={name="sd",cost={{"abh",7},{"ase",14},{"ade",7},{"ata",14},{"mcg",400},},staff={0,0,0,60,0,}}
+data_import.structures["sl"]={name="sl",cost={{"rse",16},{"rbh",16},{"lde",32},{"lta",16},{"mcg",800},},staff={0,0,0,0,70,}}
+data_import.structures["sme"]={name="sme",cost={{"bse",6},{"bbh",4},{"bde",4},{"mcg",68},},staff={50,0,0,0,0,}}
+data_import.structures["tnp"]={name="tnp",cost={{"lbh",6},{"lde",8},{"lse",16},{"mcg",240},},staff={0,0,80,0,0,}}
+data_import.structures["wel"]={name="wel",cost={{"bbh",8},{"bse",6},{"mcg",76},},staff={70,0,0,0,0,}}
+data_import.structures["wpl"]={name="wpl",cost={{"lbh",6},{"lse",3},{"bde",2},{"tru",6},{"mcg",160},},staff={0,70,0,0,0,}}
 
 data_import.recipes = {
   {name="aml-be",category="aml",time=12960,ingredients={{"ber",1},{"tai",1},{"bts",1},{"zir",1},},results={{"be",1},{"al",1},{"si",1},}},
@@ -511,3 +513,5 @@ data_import.item_groups = {
   "software",
   "textiles",
 }
+
+return data_import

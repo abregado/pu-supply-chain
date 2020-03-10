@@ -1,5 +1,5 @@
 require("util")
-require("data-import")
+data_import = require("data-import")
 time_multiplier = 10000
 largest_recipe_stack = 100
 
@@ -16,6 +16,13 @@ core_ent.name = 'cm'
 core_ent.icon = "__pu-supply-chain__/graphics/icons/cm.png"
 core_ent.minable.result = nil
 core_ent.minable.results = {{"lse",4},{"tru",8},{"psl",12},{"lde",4},{"lta",4},{"mcg",100}}
+core_ent.picture = {
+  filename = "__pu-supply-chain__/graphics/entity/cm.png",
+  width = 96,
+  height = 96,
+}
+core_ent.collision_box = {{-1.5, -1.5}, {1.5, 1.5}}
+core_ent.selection_box = {{-1.5, -1.5}, {1.5, 1.5}}
 
 local core_item = util.table.deepcopy(data.raw["item"]["fast-inserter"])
 core_item.name = "cm"
@@ -40,6 +47,14 @@ storage_ent.name = 'sto'
 storage_ent.icon = "__pu-supply-chain__/graphics/icons/sto.png"
 storage_ent.minable.result = nil
 storage_ent.minable.results = {{"bbh",6},{"bse",2},{"bde",6},{"mcg",60}}
+storage_ent.picture = {
+  filename = "__pu-supply-chain__/graphics/entity/sto.png",
+  width = 96,
+  height = 96,
+}
+storage_ent.collision_box = {{-1, -1}, {1, 1}}
+storage_ent.selection_box = {{-1, -1}, {1, 1}}
+
 
 local storage_item = util.table.deepcopy(data.raw["item"]["fast-inserter"])
 storage_item.name = "sto"
@@ -129,7 +144,49 @@ splitter_item.subgroup = "core"
 --  energy = 0.1,
 --}
 
+local morale_module_1 = {
+  type = "module",
+  name = "module-1",
+  localised_description = {"item-description.module-1"},
+  icon = "__base__/graphics/icons/speed-module.png",
+  icon_size = 32,
+  subgroup = "module",
+  category = "speed",
+  tier = 1,
+  order = "a[speed]-a[speed-module-1]",
+  stack_size = 1,
+  effect = { speed = {bonus = -0.20}}
+}
+local morale_module_2 = {
+  type = "module",
+  name = "module-2",
+  localised_description = {"item-description.module-2"},
+  icon = "__base__/graphics/icons/speed-module.png",
+  icon_size = 32,
+  subgroup = "module",
+  category = "speed",
+  tier = 1,
+  order = "a[speed]-a[speed-module-1]",
+  stack_size = 1,
+  effect = { speed = {bonus = -0.}}
+}
+local morale_module_3 = {
+  type = "module",
+  name = "module-3",
+  localised_description = {"item-description.module-3"},
+  icon = "__base__/graphics/icons/speed-module.png",
+  icon_size = 32,
+  subgroup = "module",
+  category = "speed",
+  tier = 1,
+  order = "a[speed]-a[speed-module-1]",
+  stack_size = 1,
+  effect = { speed = {bonus = -0.07}}
+}
+
+
 data:extend({belt_ent,belt_item,underground_belt_ent,underground_belt_item})
 data:extend({inserter_ent,inserter_item,splitter_ent,splitter_item})
 data:extend({core_ent,core_item,storage_ent,storage_item})
 data:extend({storage_recipe,core_recipe})
+data:extend({morale_module_1,morale_module_2,morale_module_3})

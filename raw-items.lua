@@ -135,12 +135,14 @@ local generate_mining_structure = function(miner_data)
   miner_ent.minable.results = miner_data.cost
   miner_ent.icon = "__pu-supply-chain__/graphics/icons/"..miner_data.name..".png"
   miner_ent.icon_size = 64
+  miner_ent.mining_speed = 4
   miner_ent.minable.result = nil
   miner_ent.energy_source = {
     type = "void"
   }
   miner_ent.allowed_effects = {'speed'}
   miner_ent.module_specification = {module_slots= 1}
+  miner_ent.resource_searching_radius = 1.49
 
   local miner_item = util.table.deepcopy(data.raw["item"]["stone-furnace"])
   miner_item.name = miner_data.name
