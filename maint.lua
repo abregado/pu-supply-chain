@@ -42,8 +42,68 @@ local work_state_modules = {
     'module-5',
 }
 
-local update_maint_gui = function(player)
+local create_maint_gui = function(player)
+    local frame = player.gui.left.add({
+        type = 'frame',
+        direction = 'vertical',
+        name = 'maint_gui',
+        caption = {'maint-gui.heading'}
+    })
+    frame.add({
+        type = 'label',
+        caption = {"maint-gui.population",0,0,0,0,0},
+        name = 'population'
+    })
+    frame.add({
+        type = 'table',
+        name = 'costs_table',
+        column_count = 3
+    })
+end
 
+local add_cost_headers = function(gui)
+    gui.add({
+        type = "label",
+        caption = "",
+        name = "cost_icon_header"
+    })
+    gui.add({
+        type = "label",
+        caption = {"maint-gui.item-name-header"},
+        name = "cost_item_header"
+    })
+    gui.add({
+        type = "label",
+        caption = {"maint-gui.item-cost-header"},
+        name = "cost_quant_header"
+    })
+end
+
+local update_maint_gui = function(player,colony)
+    if not player.gui.left.maint_gui then
+        create_maint_gui(player)
+    end
+    local pop_label = player.gui.left.maint_gui.population
+    local cost_table = player.gui.left.maint_gui.costs_table
+    cost_table.clear()
+    add_cost_headers(cost_table)
+    for name, cost in pairs(colony.costs) do
+        if cost > 0 then
+            cost_table.add({
+                type = 'label',
+                caption = "[item="..name.."]"
+            })
+            cost_table.add({
+                type = 'label',
+                caption = {"item-name."..name}
+            })
+            cost_table.add({
+                type = 'label',
+                caption = tostring(cost)
+            })
+        end
+    end
+    pop_label.caption = {"maint-gui.population",colony.population[1],colony.population[2],colony.population[3],colony.population[4],colony.population[5]}
 end
 
 local safe_remove = function(inventory,stack)
@@ -59,13 +119,15 @@ local apply_work_state = function(colony)
         mod_inv.insert(work_state_modules[colony.work_state])
     end
     local inventory = colony.core.get_inventory(defines.inventory.chest)
-    local production_stats = game.forces.player.item_pro
+    local production_stats = game.forces.player.item_production_statistics
     for name, cost in pairs(colony.costs) do
         if colony.work_state > 1 then
             local half_cost = math.floor(cost/2)
             safe_remove(inventory,{name=name,count=half_cost})
+            production_stats.on_flow(name,half_cost * -1)
         elseif colony.work_state > 2 then
             safe_remove(inventory,{name=name,count=cost})
+            production_stats.on_flow(name,cost * -1)
         end
     end
 end
@@ -123,17 +185,6 @@ local calc_colony_population = function(colony)
     return total_workers
 end
 
-local do_update = function()
-    for _, colony in pairs(global.maint.colonies) do
-        colony.population = calc_colony_population(colony)
-        colony.costs = calc_colony_needs(colony)
-        colony.work_state = calc_colony_work_state(colony)
-        apply_work_state(colony)
-        game.print(serpent.line(colony.population).." state:"..colony.work_state)
-
-    end
-end
-
 local find_closest_colony = function(position)
     local closest_dist = 99999
     local closest_col = nil
@@ -144,6 +195,25 @@ local find_closest_colony = function(position)
     end
     return closest_col
 end
+
+local do_update = function()
+    for _, colony in pairs(global.maint.colonies) do
+        colony.population = calc_colony_population(colony)
+        colony.costs = calc_colony_needs(colony)
+        colony.work_state = calc_colony_work_state(colony)
+        apply_work_state(colony)
+        game.print(serpent.line(colony.population).." state:"..colony.work_state)
+
+    end
+    for _, player in pairs(game.players) do
+        local colony = find_closest_colony(player.position)
+        if colony then
+            update_maint_gui(player,colony)
+        end
+    end
+end
+
+
 
 local maint = {}
 
