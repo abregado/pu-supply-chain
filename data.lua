@@ -155,7 +155,7 @@ local morale_module_1 = {
   tier = 1,
   order = "a[speed]-a[speed-module-1]",
   stack_size = 1,
-  effect = { speed = {bonus = -0.20}}
+  effect = { speed = {bonus = -0.80}}
 }
 local morale_module_2 = {
   type = "module",
@@ -168,7 +168,7 @@ local morale_module_2 = {
   tier = 1,
   order = "a[speed]-a[speed-module-1]",
   stack_size = 1,
-  effect = { speed = {bonus = -0.}}
+  effect = { speed = {bonus = -0.48}}
 }
 local morale_module_3 = {
   type = "module",
@@ -181,7 +181,33 @@ local morale_module_3 = {
   tier = 1,
   order = "a[speed]-a[speed-module-1]",
   stack_size = 1,
-  effect = { speed = {bonus = -0.07}}
+  effect = { speed = {bonus = -0.24}}
+}
+local morale_module_4 = {
+  type = "module",
+  name = "module-3",
+  localised_description = {"item-description.module-3"},
+  icon = "__base__/graphics/icons/speed-module.png",
+  icon_size = 32,
+  subgroup = "module",
+  category = "speed",
+  tier = 1,
+  order = "a[speed]-a[speed-module-1]",
+  stack_size = 1,
+  effect = { speed = {bonus = -0.17}}
+}
+local morale_module_5 = {
+  type = "module",
+  name = "module-5",
+  localised_description = {"item-description.module-5"},
+  icon = "__base__/graphics/icons/speed-module.png",
+  icon_size = 32,
+  subgroup = "module",
+  category = "speed",
+  tier = 1,
+  order = "a[speed]-a[speed-module-1]",
+  stack_size = 1,
+  effect = { speed = {bonus = -0.03}}
 }
 
 
@@ -189,4 +215,4 @@ data:extend({belt_ent,belt_item,underground_belt_ent,underground_belt_item})
 data:extend({inserter_ent,inserter_item,splitter_ent,splitter_item})
 data:extend({core_ent,core_item,storage_ent,storage_item})
 data:extend({storage_recipe,core_recipe})
-data:extend({morale_module_1,morale_module_2,morale_module_3})
+data:extend({morale_module_1,morale_module_2,morale_module_3,morale_module_4,morale_module_5})
