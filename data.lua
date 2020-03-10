@@ -1,7 +1,6 @@
 require("util")
 data_import = require("data-import")
-time_multiplier = 10000
-largest_recipe_stack = 100
+require('constants')
 
 require('raw-items')
 require('items')

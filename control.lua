@@ -1,5 +1,6 @@
 data_import = require('data-import')
 local maint = require('maint')
+require('constants')
 
 local on_game_created_from_scenario = function()
   for tech_name, tech_lua in pairs(game.forces.player.technologies) do

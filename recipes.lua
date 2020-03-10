@@ -34,7 +34,7 @@ local generate_recipe = function (recipe_data)
     name = recipe_data.name,
     --icon = "__pu-supply-chain__/graphics/icons/generic-icon.png",
     --icon_size = 64, icon_mipmaps = 4,
-    energy_required = recipe_data.time/time_multiplier,
+    energy_required = recipe_data.time/10000*time_multiplier,
     category = recipe_data.category,
     ingredients = recipe_data.ingredients,
     group = "products",

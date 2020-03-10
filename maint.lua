@@ -283,7 +283,7 @@ end
 maint.on_load = function()
     global.maint = {
         next_update = 0,
-        update_length = 500,
+        update_length = 500*time_multiplier,
         colonies = {}
     }
 end
