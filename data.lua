@@ -52,8 +52,8 @@ storage_ent.picture = {
   width = 96,
   height = 96,
 }
-storage_ent.collision_box = {{-1, -1}, {1, 1}}
-storage_ent.selection_box = {{-1, -1}, {1, 1}}
+storage_ent.collision_box = {{-1.5, -1.5}, {1.5, 1.5}}
+storage_ent.selection_box = {{-1.5, -1.5}, {1.5, 1.5}}
 
 
 local storage_item = util.table.deepcopy(data.raw["item"]["fast-inserter"])
@@ -161,7 +161,7 @@ local morale_module_2 = {
   type = "module",
   name = "module-2",
   localised_description = {"item-description.module-2"},
-  icon = "__base__/graphics/icons/speed-module.png",
+  icon = "__base__/graphics/icons/speed-module-2.png",
   icon_size = 32,
   subgroup = "module",
   category = "speed",
@@ -174,7 +174,7 @@ local morale_module_3 = {
   type = "module",
   name = "module-3",
   localised_description = {"item-description.module-3"},
-  icon = "__base__/graphics/icons/speed-module.png",
+  icon = "__base__/graphics/icons/speed-module-3.png",
   icon_size = 32,
   subgroup = "module",
   category = "speed",

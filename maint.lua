@@ -202,8 +202,6 @@ local do_update = function()
         colony.costs = calc_colony_needs(colony)
         colony.work_state = calc_colony_work_state(colony)
         apply_work_state(colony)
-        game.print(serpent.line(colony.population).." state:"..colony.work_state)
-
     end
     for _, player in pairs(game.players) do
         local colony = find_closest_colony(player.position)
