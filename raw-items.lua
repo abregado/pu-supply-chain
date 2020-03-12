@@ -46,9 +46,9 @@ local raw_patch = function(res_cat_name,item_name)
     },
   })
   local starting_area_resource = false
-  local rarity = 1
-  local density = 3
-  local max_size = 10
+  --local rarity = 1
+  --local density = 3
+  --local max_size = 10
   if item_name == 'h2o' or
     item_name == 'h' or
     item_name == 'lst' or
@@ -56,9 +56,9 @@ local raw_patch = function(res_cat_name,item_name)
     item_name == 'feo' or
     item_name == 'o' then
     starting_area_resource = true
-    rarity = 0.25
-    max_size = 20
-    density = 15
+    --rarity = 0.25
+    --max_size = 20
+    --density = 15
   end
 
   local deposit_entity = util.table.deepcopy(data.raw["resource"]["iron-ore"])
@@ -77,16 +77,16 @@ local raw_patch = function(res_cat_name,item_name)
   deposit_entity.autoplace = resource_autoplace.resource_autoplace_settings({
     name = item_name,
     order = item_name,
-    base_density = 1,
-    base_spots_per_km2 = rarity,
+    base_density = 3,
+    base_spots_per_km2 = 1,
     has_starting_area_placement = starting_area_resource,
     random_spot_size_minimum = 8,
-    random_spot_size_maximum = max_size,
+    random_spot_size_maximum = 10,
     regular_blob_amplitude_multiplier = 1,
     richness_post_multiplier = 0.8,
     additional_richness = 300000,
     regular_rq_factor_multiplier = 0.1,
-    candidate_spot_count = 22
+    candidate_spot_count = 50
   })
   deposit_entity.category = res_cat_name
   deposit_entity.minable.result = item_name

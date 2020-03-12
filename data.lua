@@ -148,7 +148,7 @@ local morale_module_1 = {
   name = "module-1",
   localised_description = {"item-description.module-1"},
   icon = "__base__/graphics/icons/speed-module.png",
-  icon_size = 32,
+  icon_size = 64,
   subgroup = "module",
   category = "speed",
   tier = 1,
@@ -161,7 +161,7 @@ local morale_module_2 = {
   name = "module-2",
   localised_description = {"item-description.module-2"},
   icon = "__base__/graphics/icons/speed-module-2.png",
-  icon_size = 32,
+  icon_size = 64,
   subgroup = "module",
   category = "speed",
   tier = 1,
@@ -174,20 +174,7 @@ local morale_module_3 = {
   name = "module-3",
   localised_description = {"item-description.module-3"},
   icon = "__base__/graphics/icons/speed-module-3.png",
-  icon_size = 32,
-  subgroup = "module",
-  category = "speed",
-  tier = 1,
-  order = "a[speed]-a[speed-module-1]",
-  stack_size = 1,
-  effect = { speed = {bonus = -0.24}}
-}
-local morale_module_4 = {
-  type = "module",
-  name = "module-3",
-  localised_description = {"item-description.module-3"},
-  icon = "__base__/graphics/icons/speed-module.png",
-  icon_size = 32,
+  icon_size = 64,
   subgroup = "module",
   category = "speed",
   tier = 1,
@@ -195,18 +182,31 @@ local morale_module_4 = {
   stack_size = 1,
   effect = { speed = {bonus = -0.17}}
 }
-local morale_module_5 = {
+local morale_module_4 = {
   type = "module",
-  name = "module-5",
-  localised_description = {"item-description.module-5"},
+  name = "module-4",
+  localised_description = {"item-description.module-3"},
   icon = "__base__/graphics/icons/speed-module.png",
-  icon_size = 32,
+  icon_size = 64,
   subgroup = "module",
   category = "speed",
   tier = 1,
   order = "a[speed]-a[speed-module-1]",
   stack_size = 1,
   effect = { speed = {bonus = -0.03}}
+}
+local morale_module_5 = {
+  type = "module",
+  name = "module-5",
+  localised_description = {"item-description.module-5"},
+  icon = "__base__/graphics/icons/speed-module.png",
+  icon_size = 64,
+  subgroup = "module",
+  category = "speed",
+  tier = 1,
+  order = "a[speed]-a[speed-module-1]",
+  stack_size = 1,
+  effect = { speed = {bonus = -0.0}}
 }
 
 

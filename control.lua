@@ -19,10 +19,19 @@ local on_game_created_from_scenario = function()
       recipe_lua.enabled = false
     end
   end
-  
+
   game.forces.player.inserter_stack_size_bonus = 9
-  maint.on_load()
+  maint.on_init()
 end
+
+local on_configuration_changed = function(event)
+  global.created_items = global.created_items or created_items()
+  global.respawn_items = global.respawn_items or respawn_items()
+end
+
+on_init = function()
+end
+
 
 local on_player_created = function(event)
   local player = game.players[event.player_index]
@@ -30,7 +39,7 @@ local on_player_created = function(event)
   player.character = nil
   old_char.destroy()
   player.get_main_inventory().clear()
-  local starting_items = {{"lse",4},{"tru",8},{"psl",12},{"lde",4},{"lta",4},{"mcg",1000},{'bse',100},{'bta',20,},{'bbh',30},{'bde',50}}
+  local starting_items = {{'dw',1000},{"lse",4},{"tru",8},{"psl",12},{"lde",4},{"lta",4},{"mcg",1000},{'bse',100},{'bta',20,},{'bbh',30},{'bde',50}}
   for _, stack in pairs(starting_items) do
     player.insert({name=stack[1],count=stack[2]})
   end
@@ -41,6 +50,7 @@ local on_player_created = function(event)
 end
 
 local on_built_entity = function(event)
+  --TODO: If there is no CM in range then you cant build
   maint.add_entity(event.created_entity)
 
   if event.created_entity.name == 'pu-inserter' or
@@ -65,3 +75,4 @@ script.on_event(defines.events.on_player_created, on_player_created)
 script.on_event(defines.events.on_built_entity, on_built_entity)
 script.on_event(defines.events.on_player_mined_entity, on_player_mined_entity)
 script.on_event(defines.events.on_tick, on_tick)
+
