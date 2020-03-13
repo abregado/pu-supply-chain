@@ -275,6 +275,10 @@ end
 
 local maint = {}
 
+maint.nearest_colony = function(position)
+  return find_closest_colony(position)
+end
+
 maint.add_entity = function(entity)
     if entity.name == 'cm' then
         new_colony(entity)
@@ -323,7 +327,7 @@ end
 maint.on_init = function()
     global.maint = {
         next_update = 0,
-        update_length = 500*time_multiplier,
+        update_length = 520*time_multiplier,
         colonies = {}
     }
 end

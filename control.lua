@@ -1,6 +1,21 @@
 data_import = require('data-import')
 local maint = require('maint')
 require('constants')
+local math2d = require('math2d')
+
+local deny_building = function(event,message)
+  local player = game.players[event.player_index]
+  player.insert(event.stack)
+  player.surface.create_entity{
+    name = "tutorial-flying-text",
+    text = message,
+    position = {
+      event.created_entity.position.x,
+      event.created_entity.position.y - 1.5
+    },
+    color = {r = 1, g = 0.2, b = 0}}
+  event.created_entity.destroy()
+end
 
 local on_game_created_from_scenario = function()
   for tech_name, tech_lua in pairs(game.forces.player.technologies) do
@@ -19,7 +34,7 @@ local on_game_created_from_scenario = function()
       recipe_lua.enabled = false
     end
   end
-
+  game.surfaces[1].always_day = true
   game.forces.player.inserter_stack_size_bonus = 9
   maint.on_init()
 end
@@ -51,15 +66,27 @@ end
 
 local on_built_entity = function(event)
   --TODO: If there is no CM in range then you cant build
-  maint.add_entity(event.created_entity)
-
-  if event.created_entity.name == 'pu-inserter' or
-  event.created_entity.name == 'pu-transport-belt' or
-  event.created_entity.name == 'pu-splitter' or
-  event.created_entity.name == 'pu-underground-belt' then
-    game.players[event.player_index].insert(event.stack)
+  local near_colony = maint.nearest_colony(event.created_entity.position)
+  if event.created_entity.name == 'cm' then
+    maint.add_entity(event.created_entity)
+    return true
+  end
+  if not near_colony then
+    deny_building(event,{"msg.build-core-module"})
+    return false
+  elseif math2d.position.distance(near_colony.position,event.created_entity.position) > 100 and event.created_entity.name ~= 'cm' then
+    deny_building(event,{"msg.too-far-from-colony"})
+    return false
+  else
+    maint.add_entity(event.created_entity)
   end
 
+  if event.created_entity.valid and (event.created_entity.name == 'pu-inserter' or
+  event.created_entity.name == 'pu-transport-belt' or
+  event.created_entity.name == 'pu-splitter' or
+  event.created_entity.name == 'pu-underground-belt') then
+    game.players[event.player_index].insert(event.stack)
+  end
 end
 
 local on_player_mined_entity = function(event)
