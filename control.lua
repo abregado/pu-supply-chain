@@ -93,6 +93,10 @@ local on_player_mined_entity = function(event)
   maint.remove_entity(event.entity)
 end
 
+local on_player_joined = function(event)
+  --TODO: destroy their maint gui if they have one
+end
+
 local on_tick = function(event)
   maint.update(event.tick)
 end

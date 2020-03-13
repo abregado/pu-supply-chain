@@ -272,6 +272,7 @@ data_import.structures["tnp"]={name="tnp",cost={{"lbh",6},{"lde",8},{"lse",16},{
 data_import.structures["wel"]={name="wel",cost={{"bbh",8},{"bse",6},{"mcg",76},},staff={70,0,0,0,0,}}
 data_import.structures["wpl"]={name="wpl",cost={{"lbh",6},{"lse",3},{"bde",2},{"tru",6},{"mcg",160},},staff={0,70,0,0,0,}}
 
+--TODO: add extractor recipes
 data_import.recipes = {
   {name="aml-be",category="aml",time=12960,ingredients={{"ber",1},{"tai",1},{"bts",1},{"zir",1},},results={{"be",1},{"al",1},{"si",1},}},
   {name="aml-ta",category="aml",time=69120,ingredients={{"tai",1},},results={{"ta",1},{"fe",1},}},

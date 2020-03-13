@@ -1,13 +1,12 @@
 require("util")
 data_import = require("data-import")
 require('constants')
-
 require('raw-items')
 require('items')
 require('recipes')
 require('production-structures')
 
---create consumable items (modules with increasing speed bonus)
+--TODO: loader item
 
 --generate core module (void roboport)
 local core_ent = util.table.deepcopy(data.raw['container']['steel-chest'])
@@ -37,8 +36,6 @@ local core_recipe = {
   energy = 0.1,
   result = "cm",
 }
-
---{name="cm",cost={{"lse",4},{"tru",8},{"psl",12},{"lde",4},{"lta",4},{"mcg",100},},staff={0,25,15,0,0,}},
 
 --generate storage (logistic storage chest)
 local storage_ent = util.table.deepcopy(data.raw['container']['steel-chest'])
@@ -84,14 +81,6 @@ inserter_item.name = "pu-inserter"
 inserter_item.place_result = "pu-inserter"
 inserter_item.subgroup = "core"
 
---local inserter_recipe = {
---  type = "recipe",
---  name = "pu-inserter",
---  ingredients = {{'mcg',5}},
---  energy = 0.1,
---  result = "pu-inserter",
---}
-
 local belt_ent = util.table.deepcopy(data.raw['transport-belt']['transport-belt'])
 belt_ent.name = "pu-transport-belt"
 belt_ent.minable.result = nil
@@ -100,14 +89,6 @@ local belt_item = util.table.deepcopy(data.raw["item"]["transport-belt"])
 belt_item.name = "pu-transport-belt"
 belt_item.place_result = "pu-transport-belt"
 belt_item.subgroup = "core"
-
---local belt_recipe = {
---  type = "recipe",
---  name = "pu-transport-belt",
---  ingredients = {{'mcg',1}},
---  energy = 0.1,
---  result = "pu-transport-belt",
---}
 
 local underground_belt_ent = util.table.deepcopy(data.raw['underground-belt']['underground-belt'])
 underground_belt_ent.name = "pu-underground-belt"
@@ -118,14 +99,6 @@ underground_belt_item.name = "pu-underground-belt"
 underground_belt_item.place_result = "pu-underground-belt"
 underground_belt_item.subgroup = "core"
 
---local underground_belt_recipe = {
---  type = "recipe",
---  name = "pu-underground-belt",
---  ingredients = {{'mcg',10}},
---  energy = 0.1,
---  result = "pu-underground-belt",
---}
-
 local splitter_ent = util.table.deepcopy(data.raw['splitter']['splitter'])
 splitter_ent.name = "pu-splitter"
 splitter_ent.minable.result = nil
@@ -134,14 +107,6 @@ local splitter_item = util.table.deepcopy(data.raw["item"]["splitter"])
 splitter_item.name = "pu-splitter"
 splitter_item.place_result = "pu-splitter"
 splitter_item.subgroup = "core"
-
---local splitter_recipe = {
---  type = "recipe",
---  name = "pu-splitter",
---  ingredients = {{'mcg',10}},
---  result = "pu-splitter",
---  energy = 0.1,
---}
 
 local morale_module_1 = {
   type = "module",
