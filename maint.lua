@@ -136,7 +136,7 @@ end
 
 local pay_costs = function(colony)
   local inventory = colony.core.get_inventory(defines.inventory.chest)
-  local production_stats = game.forces.player.item_production_statistics
+  local production_stats = colony.force.item_production_statistics
   for name, count in pairs(colony.costs) do
     inventory.remove({name=name,count=count})
     production_stats.on_flow(name,count*-1)
@@ -155,7 +155,7 @@ local apply_work_state = function(colony)
       end
     else
       structure.active = false
-      structure.order_deconstruction(game.forces.player)
+      structure.order_deconstruction(colony.force)
     end
   end
   pay_costs(colony)
@@ -166,6 +166,7 @@ local new_colony = function(core_module)
     core = core_module,
     position = core_module.position,
     structures = {},
+    force = core_module.force,
     population = {0,0,0,0,0},
     work_state = 0,
     })

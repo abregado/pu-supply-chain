@@ -67,6 +67,52 @@ local storage_recipe = {
   result = "sto",
 }
 
+--generate import (logistic import chest)
+local import_ent = util.table.deepcopy(data.raw['logistic-container']['logistic-chest-requester'])
+import_ent.name = 'imp'
+import_ent.icon = "__pu-supply-chain__/graphics/icons/imp.png"
+import_ent.minable.result = nil
+import_ent.minable.results = nil
+import_ent.picture = {
+  filename = "__pu-supply-chain__/graphics/entity/imp.png",
+  width = 96,
+  height = 96,
+}
+import_ent.collision_box = {{-1.5, -1.5}, {1.5, 1.5}}
+import_ent.selection_box = {{-1.5, -1.5}, {1.5, 1.5}}
+import_ent.animation = nil
+import_ent.render_not_in_network_icon = false
+
+local import_item = util.table.deepcopy(data.raw["item"]["fast-inserter"])
+import_item.name = "imp"
+import_item.place_result = "imp"
+import_item.icon = "__pu-supply-chain__/graphics/icons/imp.png"
+import_item.icon_size = 64
+import_item.subgroup = "core"
+
+--generate export (logistic export chest)
+local export_ent = util.table.deepcopy(data.raw['logistic-container']['logistic-chest-passive-provider'])
+export_ent.name = 'exp'
+export_ent.icon = "__pu-supply-chain__/graphics/icons/exp.png"
+export_ent.minable.result = nil
+export_ent.minable.results = nil
+export_ent.picture = {
+  filename = "__pu-supply-chain__/graphics/entity/exp.png",
+  width = 96,
+  height = 96,
+}
+export_ent.collision_box = {{-1.5, -1.5}, {1.5, 1.5}}
+export_ent.selection_box = {{-1.5, -1.5}, {1.5, 1.5}}
+export_ent.animation = nil
+export_ent.render_not_in_network_icon = false
+
+local export_item = util.table.deepcopy(data.raw["item"]["fast-inserter"])
+export_item.name = "exp"
+export_item.place_result = "exp"
+export_item.icon = "__pu-supply-chain__/graphics/icons/exp.png"
+export_item.icon_size = 64
+export_item.subgroup = "core"
+
 --generate void energy inserter and belt
 local inserter_ent = util.table.deepcopy(data.raw['inserter']['fast-inserter'])
 inserter_ent.name = "pu-inserter"
@@ -180,3 +226,5 @@ data:extend({inserter_ent,inserter_item,splitter_ent,splitter_item})
 data:extend({core_ent,core_item,storage_ent,storage_item})
 data:extend({storage_recipe,core_recipe})
 data:extend({morale_module_1,morale_module_2,morale_module_3,morale_module_4,morale_module_5})
+data:extend({import_ent,import_item})
+data:extend({export_ent,export_item})

@@ -220,6 +220,8 @@ data_import.structures = {}
 --data_import.structures["cfl"]={name="cfl",cost={{"rbh",24},{"rde",24},{"rse",16},{"rta",32},{"sp",32},{"ffc",1},{"tac",6},{"mcg",400},},staff={100,0,0,0,0,}}
 --data_import.structures["cor"]={name="cor",cost={{"rbh",16},{"rde",32},{"rse",32},{"rta",8},{"sp",24},{"bws",8},{"bmf",2},{"mcg",400},},staff={50,0,0,0,0,}}
 --data_import.structures["cte"]={name="cte",cost={{"rbh",32},{"rde",32},{"rse",32},{"rta",8},{"sp",44},{"cc",5},{"lis",1},{"mcg",400},},staff={50,0,0,0,0,}}
+--data_import.structures["cim"]={name="cim",cost={{"rbh",32},{"rde",16},{"rse",16},{"rta",16},{"sp",36},{"cru",4},{"lis",1},{"mcg",400},},staff={20,60,0,0,0,}}
+--data_import.structures["cog"]={name="cog",cost={{"lbh",32},{"lde",16},{"lse",24},{"lta",32},{"sp",32},{"bws",16},{"bmf",1},{"mcg",4000},},staff={0,25,15,0,0,}}
 data_import.structures["cm"]={name="cm",cost={{"lse",4},{"tru",8},{"psl",12},{"lde",4},{"lta",4},{"mcg",100},},staff={0,25,15,0,0,},skip=true}
 data_import.structures["col"]={name="col",cost={{"bse",16},{"mcg",60},},staff={50,0,0,0,0,},skip=true}
 data_import.structures["ext"]={name="ext",cost={{"bse",16},{"mcg",100},},staff={60,0,0,0,0,},skip=true}
@@ -239,10 +241,8 @@ data_import.structures["apf"]={name="apf",cost={{"abh",6},{"ade",12},{"ase",12},
 data_import.structures["asm"]={name="asm",cost={{"lbh",4},{"lde",2},{"lse",6},{"lta",2},{"mcg",200},},staff={0,0,50,20,0,}}
 data_import.structures["bmp"]={name="bmp",cost={{"bse",6},{"bbh",4},{"bde",2},{"mcg",48},},staff={100,0,0,0,0,}}
 data_import.structures["chp"]={name="chp",cost={{"bbh",3},{"bse",3},{"bde",3},{"tru",4},{"mcg",72},},staff={20,60,0,0,0,}}
-data_import.structures["cim"]={name="cim",cost={{"rbh",32},{"rde",16},{"rse",16},{"rta",16},{"sp",36},{"cru",4},{"lis",1},{"mcg",400},},staff={20,60,0,0,0,}}
 data_import.structures["clf"]={name="clf",cost={{"lse",2},{"lde",4},{"bse",2},{"tru",8},{"mcg",148},},staff={0,40,0,0,0,}}
 data_import.structures["clr"]={name="clr",cost={{"lbh",8},{"lde",6},{"lse",4},{"lta",4},{"mcg",108},},staff={0,25,15,0,0,}}
-data_import.structures["cog"]={name="cog",cost={{"lbh",32},{"lde",16},{"lse",24},{"lta",32},{"sp",32},{"bws",16},{"bmf",1},{"mcg",4000},},staff={0,25,15,0,0,}}
 data_import.structures["eep"]={name="eep",cost={{"rse",12},{"rbh",6},{"rde",6},{"rta",2},{"mcg",800},},staff={0,0,0,60,40,}}
 data_import.structures["elp"]={name="elp",cost={{"rde",3},{"rbh",6},{"rse",6},{"mcg",140},},staff={0,0,40,0,0,}}
 data_import.structures["fmt"]={name="fmt",cost={{"lbh",2},{"lde",2},{"lse",2},{"tru",5},{"mcg",100},},staff={0,60,0,0,0,}}
