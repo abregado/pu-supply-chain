@@ -53,9 +53,51 @@ for _, structure_data in pairs(data_import.structures) do
   generate_item_group(structure_data.name)
 end
 
-
-
 for _, recipe_data in pairs(data_import.recipes) do
   generate_recipe(recipe_data)
 end
 
+for _, ext_product_name in pairs(data_import.raw_recipes['ext']) do
+  for quality=1,5 do
+    local quality_recipe_data = {
+      name=ext_product_name.."-"..quality,
+      category='ext',
+      time=86400,
+      ingredients={},
+      results={
+        {ext_product_name,70/5*quality}
+      }
+    }
+    generate_recipe(quality_recipe_data)
+  end
+end
+
+for _, rig_product_name in pairs(data_import.raw_recipes['rig']) do
+  for quality=1,5 do
+    local quality_recipe_data = {
+      name=rig_product_name.."-"..quality,
+      category='rig',
+      time=86400,
+      ingredients={},
+      results={
+        {rig_product_name,70/5*quality}
+      }
+    }
+    generate_recipe(quality_recipe_data)
+  end
+end
+
+for _, col_product_name in pairs(data_import.raw_recipes['col']) do
+  for quality=1,5 do
+    local quality_recipe_data = {
+      name=col_product_name.."-"..quality,
+      category='col',
+      time=86400,
+      ingredients={},
+      results={
+        {col_product_name,70/5*quality}
+      }
+    }
+    generate_recipe(quality_recipe_data)
+  end
+end

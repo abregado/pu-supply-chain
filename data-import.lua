@@ -489,6 +489,46 @@ data_import.recipes = {
   {name="wpl-tk",category="wpl",time=77760,ingredients={{"kv",1},{"tc",1},},results={{"tk",1},}},
 }
 
+data_import.raw_recipes = {}
+data_import.raw_recipes['col'] = {'amm','ar','f','h','he','he3','n','ne','o'}
+data_import.raw_recipes['rig'] = {'h2o','bts','les'}
+data_import.raw_recipes['ext'] = {'alo','auo','ber','cli','cuo','feo','gal','hal','lst','mag','mg','s','sio','tai','tio','ts','zir'}
+
+
+data_import.planets = {
+  ['montem'] = {
+    ['alo'] = 1,
+    ['auo'] = 1,
+    ['ber'] = 1,
+    ['cli'] = 1,
+    ['cuo'] = 1,
+    ['feo'] = 3,
+    ['gal'] = 1,
+    ['hal'] = 1,
+    ['lst'] = 3,
+    ['mag'] = 1,
+    ['mg'] = 1,
+    ['s'] = 1,
+    ['sio'] = 1,
+    ['tai'] = 1,
+    ['tio'] = 1,
+    ['ts'] = 1,
+    ['zir'] = 1,
+    ['h2o'] = 3,
+    ['bts'] = 1,
+    ['les'] = 1,
+    ['amm'] = 1,
+    ['ar'] = 1,
+    ['f'] = 1,
+    ['h'] = 1,
+    ['he'] = 1,
+    ['he3'] = 1,
+    ['n'] = 1,
+    ['ne'] = 1,
+    ['o'] = 3,
+  }
+}
+
 data_import.item_groups = {
   "agricultural",
   "alloys",

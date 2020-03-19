@@ -17,12 +17,10 @@ local deny_building = function(event,message)
   event.created_entity.destroy()
 end
 
-local on_game_created_from_scenario = function()
-  for tech_name, tech_lua in pairs(game.forces.player.technologies) do
-    tech_lua.enabled = false
-  end
+local make_planet_force = function(name,resource_list)
+  local planet_force = game.forces[name] or game.create_force(name)
 
-  for recipe_name, recipe_lua in pairs(game.forces.player.recipes) do
+  for recipe_name, recipe_lua in pairs(planet_force.recipes) do
     if recipe_lua.prototype.group.name == 'production' or
       recipe_lua.prototype.group.name == 'combat' or
       recipe_lua.prototype.group.name == 'logistics' or
@@ -34,8 +32,24 @@ local on_game_created_from_scenario = function()
       recipe_lua.enabled = false
     end
   end
+
+  for resource_name, resource_quality in pairs(resource_list) do
+    for quality=1,5 do
+      local recipe = planet_force.recipes[resource_name.."-"..quality]
+      recipe.enabled =(resource_quality == quality)
+    end
+  end
+
+  for tech_name, tech_lua in pairs(planet_force.technologies) do
+    tech_lua.enabled = false
+  end
+
+  planet_force.inserter_stack_size_bonus = 9
+end
+
+local on_game_created_from_scenario = function()
+  make_planet_force('montem',data_import.planets['montem'])
   game.surfaces[1].always_day = true
-  game.forces.player.inserter_stack_size_bonus = 9
   maint.on_init()
 end
 
@@ -62,6 +76,7 @@ local on_player_created = function(event)
   player.insert('pu-transport-belt')
   player.insert('pu-splitter')
   player.insert('pu-underground-belt')
+  player.force = game.forces['montem']
 end
 
 local on_built_entity = function(event)
