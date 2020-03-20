@@ -102,7 +102,7 @@ local add_price_row = function(list_table,name)
     type = 'label',
     caption = game.item_prototypes[name].localised_name,
   })
-  if global.market_data.sell_orders_by_product[name] then
+  if global.market_data.sell_orders_by_product[name] and #global.market_data.sell_orders_by_product[name] > 0 then
     list_table.add({
       type = 'label',
       caption = global.market_data.sell_orders_by_product[name][1].price,
@@ -113,7 +113,7 @@ local add_price_row = function(list_table,name)
       caption = '-',
     })
   end
-  if global.market_data.buy_orders_by_product[name] then
+  if global.market_data.buy_orders_by_product[name] and #global.market_data.buy_orders_by_product[name] > 0 then
     list_table.add({
       type = 'label',
       caption = global.market_data.buy_orders_by_product[name][1].price,
@@ -124,7 +124,7 @@ local add_price_row = function(list_table,name)
       caption = "-",
     })
   end
-  if global.market_data.sell_orders_by_product[name] then
+  if global.market_data.sell_orders_by_product[name] and #global.market_data.sell_orders_by_product[name] > 0 then
     list_table.add({
       type = 'label',
       caption = global.market_data.sell_orders_by_product[name][1].count,
@@ -145,7 +145,8 @@ local update_price_gui = function(player)
   gui.prices.clear()
   add_price_headers(gui.prices)
   for _, material in pairs(data_import.materials) do
-    if global.market_data.buy_orders_by_product[material.name] or global.market_data.sell_orders_by_product[material.name] then
+    if (global.market_data.buy_orders_by_product[material.name] and #global.market_data.buy_orders_by_product[material.name] > 0) or
+            (global.market_data.sell_orders_by_product[material.name] and #global.market_data.sell_orders_by_product[material.name] >0) then
       add_price_row(gui.prices,material.name)
     end
   end
@@ -585,7 +586,7 @@ market.on_built_entity = on_built_entity
 
 market.init_player = function(player)
   global.market_data.player_prices[player.name] = {}
-  global.market_data.player_wallets[player.name] = 100000
+  global.market_data.player_wallets[player.name] = 300000
   update_wallet_gui(player)
   create_market_gui(player)
 end

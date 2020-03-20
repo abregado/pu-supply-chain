@@ -38,6 +38,7 @@ local generate_production_structure = function(structure_data)
   structure_ent.crafting_categories = {structure_data.name}
   structure_ent.minable.results = structure_data.cost
   structure_ent.minable.result = nil
+  structure_ent.crafting_speed = 1
   structure_ent.energy_source = {
     type = "void"
   }
