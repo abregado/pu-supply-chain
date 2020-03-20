@@ -1,3 +1,5 @@
+local data_import = require('__pu-supply-chain__.data-import')
+
 local add_order_headers = function(order_gui)
   local name = order_gui.add({
     type = 'label',
@@ -44,6 +46,111 @@ local create_wallet_gui = function(player)
   })
 end
 
+local add_price_headers = function(listing_gui)
+  local icon = listing_gui.add({
+    type = 'label',
+    name = 'icon_header',
+    caption = 'Icon'
+  })
+  icon.style.width = 36
+  local name = listing_gui.add({
+    type = 'label',
+    name = 'name_header',
+    caption = 'Item name'
+  })
+  name.style.width = 220
+  local ask = listing_gui.add({
+    type = 'label',
+    name = 'ask_header',
+    caption = 'Ask Price'
+  })
+  ask.style.width = 70
+  local bid = listing_gui.add({
+    type = 'label',
+    name = 'bid_header',
+    caption = 'Bid Price'
+  })
+  bid.style.width = 70
+  local stocks = listing_gui.add({
+    type = 'label',
+    name = 'stock_header',
+    caption = 'Supply'
+  })
+  stocks.style.width = 70
+end
+
+local create_price_gui = function(player)
+  local frame = player.gui.center.add({
+    type = 'frame',
+    name = 'market_listing',
+    direction = 'vertical',
+    caption = 'Market Prices'
+  })
+  local price_list = frame.add({
+    type = 'table',
+    name = 'prices',
+    column_count = 5
+  })
+end
+
+local add_price_row = function(list_table,name)
+  list_table.add({
+    type = 'label',
+    caption = '[item='..name..']'
+  })
+  list_table.add({
+    type = 'label',
+    caption = game.item_prototypes[name].localised_name,
+  })
+  if global.market_data.sell_orders_by_product[name] then
+    list_table.add({
+      type = 'label',
+      caption = global.market_data.sell_orders_by_product[name][1].price,
+    })
+  else
+    list_table.add({
+      type = 'label',
+      caption = '-',
+    })
+  end
+  if global.market_data.buy_orders_by_product[name] then
+    list_table.add({
+      type = 'label',
+      caption = global.market_data.buy_orders_by_product[name][1].price,
+    })
+  else
+    list_table.add({
+      type = 'label',
+      caption = "-",
+    })
+  end
+  if global.market_data.sell_orders_by_product[name] then
+    list_table.add({
+      type = 'label',
+      caption = global.market_data.sell_orders_by_product[name][1].count,
+    })
+  else
+    list_table.add({
+      type = 'label',
+      caption = 0,
+    })
+  end
+end
+
+local update_price_gui = function(player)
+  if not player.gui.center.market_listing then
+    create_price_gui(player)
+  end
+  local gui = player.gui.center.market_listing
+  gui.prices.clear()
+  add_price_headers(gui.prices)
+  for _, material in pairs(data_import.materials) do
+    if global.market_data.buy_orders_by_product[material.name] or global.market_data.sell_orders_by_product[material.name] then
+      add_price_row(gui.prices,material.name)
+    end
+  end
+end
+
 local update_wallet_gui = function(player,second_till_next_update)
   if not player.gui.left.wallet_frame then
     create_wallet_gui(player)
@@ -76,6 +183,11 @@ local create_market_gui = function(player)
     type = 'button',
     name = 'refresh_market',
     caption = "Refresh"
+  })
+  frame.add({
+    type = 'button',
+    name = 'open_prices',
+    caption = "Open Prices"
   })
 end
 
@@ -382,6 +494,12 @@ local on_gui_click = function(event)
   local player = game.players[event.player_index]
   if event.element.valid and event.element.name == 'refresh_market' then
     refresh_market_gui(player)
+  elseif event.element.valid and event.element.name == 'open_prices' and player.gui.center.market_listing == nil then
+    update_price_gui(player)
+    event.element.caption = "Close Prices"
+  elseif event.element.valid and event.element.name == 'open_prices' and player.gui.center.market_listing then
+    player.gui.center.market_listing.destroy()
+    event.element.caption = "Open Prices"
   end
 end
 
