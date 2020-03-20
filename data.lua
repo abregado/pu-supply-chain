@@ -127,6 +127,21 @@ inserter_item.name = "pu-inserter"
 inserter_item.place_result = "pu-inserter"
 inserter_item.subgroup = "core"
 
+--generate void energy inserter and belt
+local filter_ent = util.table.deepcopy(data.raw['inserter']['filter-inserter'])
+filter_ent.name = "pu-filter-inserter"
+filter_ent.icon = "__pu-supply-chain__/graphics/icons/generic-icon.png"
+filter_ent.minable.result = nil
+filter_ent.energy_source = {
+  type = "void"
+}
+
+local filter_item = util.table.deepcopy(data.raw["item"]["filter-inserter"])
+filter_item.name = "pu-filter-inserter"
+filter_item.place_result = "pu-filter-inserter"
+filter_item.subgroup = "core"
+
+
 local belt_ent = util.table.deepcopy(data.raw['transport-belt']['transport-belt'])
 belt_ent.name = "pu-transport-belt"
 belt_ent.minable.result = nil
@@ -228,3 +243,4 @@ data:extend({storage_recipe,core_recipe})
 data:extend({morale_module_1,morale_module_2,morale_module_3,morale_module_4,morale_module_5})
 data:extend({import_ent,import_item})
 data:extend({export_ent,export_item})
+data:extend({filter_ent,filter_item})
