@@ -1,3 +1,6 @@
+local data_import = require('__pu-supply-chain__.data-import')
+local market = require('passive_market')
+
 local free_builder = {}
 
 local structure_list = {
@@ -33,6 +36,13 @@ local structure_list = {
   --{'medium-electric-pole',14},
   --{'big-electric-pole',34},
 }
+
+free_builder.update_structures_available = function()
+  local available_structures = {}
+  for _, structure in pairs(data_import) do
+
+  end
+end
 
 free_builder.add_free_item =function(item_name,item_cost)
   global.free_builder_data.free_items[item_name] = {name = item_name,cost = item_cost}
@@ -82,6 +92,29 @@ free_builder.set_player_active = function(player)
     end
     player.insert({name=name,count=1})
   end
+
+  --if player.get_quick_bar_slot(1) == nil then
+  --  set_quick_bar_slot(1,'pu-transport-belt')
+  --  set_quick_bar_slot(2,'pu-underground-belt')
+  --  set_quick_bar_slot(3,'pu-splitter')
+  --  set_quick_bar_slot(4,'loader')
+  --  set_quick_bar_slot(5,'pu-inserter')
+  --  set_quick_bar_slot(6,'pu-filter-inserter')
+  --  set_quick_bar_slot(7,'green-wire')
+  --  set_quick_bar_slot(8,'cm')
+  --  set_quick_bar_slot(9,'sto')
+  --  set_quick_bar_slot(10,'deconstruction-planner')
+  --  set_quick_bar_slot(11,'col')
+  --  set_quick_bar_slot(12,'ext')
+  --  set_quick_bar_slot(13,'rig')
+  --  set_quick_bar_slot(14,'frm')
+  --  set_quick_bar_slot(15,'fp')
+  --  set_quick_bar_slot(16,'inc')
+  --  set_quick_bar_slot(17,'sme')
+  --  set_quick_bar_slot(18,'bmp')
+  --  set_quick_bar_slot(19,'pp1')
+  --  set_quick_bar_slot(20,'wel')
+  --end
 end
 
 free_builder.get_value = function()
@@ -91,8 +124,15 @@ end
 local on_built_entity = function(event)
   local player = game.players[event.player_index]
   if global.free_builder_data.players[player.name] then
-    if global.free_builder_data.free_items[event.created_entity.name] then
+    if global.free_builder_data.free_items[event.created_entity.name] and player.cursor_stack.valid_for_read == false then
       player.insert(event.stack)
+      local recipe = player.force.recipes[event.created_entity.name]
+      if recipe then
+        --add buy orders for these items
+        for _, ingredient in pairs(recipe.ingredients) do
+          market.add_buy_order(ingredient.name,ingredient.amount,nil,nil,false)
+        end
+      end
     end
   end
 end

@@ -238,9 +238,11 @@ local calc_colony_population = function(colony)
     for _, structure in pairs(colony.structures) do
       if structure.to_be_deconstructed(structure.force) == true then
         structure.active = false
+        structure.minable = true
       else
         structure.active = true
-        local workers = data_import.structures[structure.name].staff
+        structure.minable = false
+          local workers = data_import.structures[structure.name].staff
         for index, population in pairs(workers) do
           total_workers[index] = total_workers[index] + population
         end
