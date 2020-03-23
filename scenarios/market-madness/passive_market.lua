@@ -162,14 +162,22 @@ local add_sell_order = function(name,count,location,player_name,delete_if_not_fi
 end
 
 local tally_sell_orders = function()
-  --remove temporary orders from the last cycle
+   --remove temporary orders from the last cycle
   local to_be_deleted = {}
   for item_name, sell_orders in pairs(global.market_data.sell_orders_by_product) do
     for index, order in pairs(sell_orders) do
-      if order.delete_if_not_filled == true or order.count == 0 then table.insert(to_be_deleted,index) end
+      if order.delete_if_not_filled == true or order.count == 0 then
+        table.insert(to_be_deleted,index) 
+      end
     end
 
     for _, index in pairs(to_be_deleted) do
+      local order = global.market_data.sell_orders_by_product[item_name][index]
+      if order.count == 0 then
+        game.print("deleting sell order because it is filled")
+      else
+        game.print("deleting sell order because it is temporary")
+      end
       table.remove(global.market_data.sell_orders_by_product[item_name], index)
     end
   end
@@ -231,10 +239,18 @@ local tally_buy_orders = function()
   local to_be_deleted = {}
   for item_name, buy_orders in pairs(global.market_data.buy_orders_by_product) do
     for index, order in pairs(buy_orders) do
-      if order.delete_if_not_filled == true or order.count == 0 then table.insert(to_be_deleted,index) end
+      if order.delete_if_not_filled == true or order.count == 0 then
+        table.insert(to_be_deleted,index) 
+      end
     end
 
     for _, index in pairs(to_be_deleted) do
+      local order = global.market_data.buy_orders_by_product[item_name][index]
+      if order.count == 0 then
+        game.print("deleting buy order because it is filled")
+      else
+        game.print("deleting buy order because it is temporary")
+      end
       table.remove(global.market_data.buy_orders_by_product[item_name], index)
     end
   end
@@ -302,16 +318,20 @@ end
 
 local count_supply = function(name)
   local count = 0
-  for _, order in pairs(global.market_data.sell_orders_by_product[name]) do
-    count = count + order.count
+  if global.market_data.sell_orders_by_product[name] then
+    for _, order in pairs(global.market_data.sell_orders_by_product[name]) do
+      count = count + order.count
+    end
   end
   return count
 end
 
 local count_demand = function(name)
   local count = 0
-  for _, order in pairs(global.market_data.buy_orders_by_product[name]) do
-    count = count + order.count
+  if global.market_data.buy_orders_by_product[name] then
+    for _, order in pairs(global.market_data.buy_orders_by_product[name]) do
+      count = count + order.count
+    end
   end
   return count
 end
@@ -333,7 +353,7 @@ local process_sales = function()
           local sold_amount = transfer(item_name,sell_orders[1],order)
           sell_orders[1].count = sell_orders[1].count - sold_amount
           order.count = order.count - sold_amount
-          if sell_orders[1].count == 0 then table.remove(sell_orders,1) end
+          if sell_orders[1].count == 0 then table.insert(sell_orders,table.remove(sell_orders,1)) end
         end
       end
     else
@@ -475,7 +495,6 @@ market.on_load = function(import_ent,export_ent)
   }
 
   for _, item in pairs(data_import.materials) do
-    print('adding orders list for '..item.name)
     global.market_data.sell_orders_by_product[item.name] = {}
     global.market_data.buy_orders_by_product[item.name] = {}
   end
@@ -483,11 +502,9 @@ end
 
 market.add_npc_customer = add_npc_customer
 market.add_npc_supplier = add_npc_supplier
-market.in_demand = function (name)
-  return #global.market_data.buy_orders_by_product[name] > 0
-end
 market.in_supply = function (name)
-  return #global.market_data.sell_orders_by_product[name] > 0
+  game.print("checking supply for "..name)
+  return count_demand(name) < count_supply(name)
 end
 
 return market

@@ -93,7 +93,7 @@ local on_game_created_from_scenario = function()
 
   market.add_npc_supplier('dw',30,75, true)
   market.add_npc_supplier('rat',30,102, true)
-  market.add_npc_supplier('bbh',1,2400, false)
+  market.add_npc_supplier('bbh',1,2400, true)
   market.add_npc_supplier('bde',1,2350, false)
   market.add_npc_supplier('bta',1,1600, false)
   market.add_npc_supplier('bse',1,1550,false)
@@ -130,6 +130,11 @@ local on_player_created = function(event)
   player.set_quick_bar_slot(18,'bmp')
   player.set_quick_bar_slot(19,'pp1')
   player.set_quick_bar_slot(20,'wel')
+  market.add_sell_order('mcg',400,nil,nil,false)
+  market.add_sell_order('bbh',40,nil,nil,false)
+  market.add_sell_order('bse',40,nil,nil,false)
+  market.add_sell_order('bta',10,nil,nil,false)
+  market.add_sell_order('bde',10,nil,nil,false)
 end
 
 local on_tick = function(event)
@@ -181,7 +186,6 @@ local on_player_joined_game = function(event)
   --TODO: destroy their maint gui if they have one
   local player = game.players[event.player_index]
   player.teleport({0,0},'nauvis')
-
 end
 
 local on_player_changed_land = function(event)

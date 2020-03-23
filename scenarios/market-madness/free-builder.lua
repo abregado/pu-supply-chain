@@ -3,45 +3,26 @@ local market = require('passive_market')
 
 local free_builder = {}
 
-local structure_list = {
-  --{'transport-belt',1},
-  --{'underground-belt',9},
-  --{'splitter',24},
-  --{'fast-transport-belt',6},
-  --{'fast-underground-belt',49},
-  --{'fast-splitter',67},
-  --{'express-transport-belt',26},
-  --{'express-underground-belt',149},
-  --{'express-splitter',42*20+80+73+86,},
-  --{'assembling-machine-1',27},
-  --{'assembling-machine-2',10+35+9},
-  --{'assembling-machine-3',42*30+20+130+148},
-  --{'pipe',1},
-  --{'pipe-to-ground',15},
-  --{'oil-refinery',20+75+40+15},
-  --{'chemical-plant',25+20+8},
-  --{'stone-furnace',5},
-  --{'steel-furnace',20+30},
-  --{'electric-furnace',20+50+420+10+25},
-  --{'centrifuge',42*200+250+400+500+1500},
-  --{'pump',15},
-  --{'inserter',6},
-  --{'burner-inserter',3},
-  --{'fast-inserter',13},
-  --{'stack-inserter',84+55+32},
-  --{'filter-inserter',23},
-  --{'stack-filter-inserter',84+60+40},
-  --{'long-handed-inserter',9},
-  --{'small-electric-pole',2},
-  --{'medium-electric-pole',14},
-  --{'big-electric-pole',34},
-}
+local structure_list = {}
 
-free_builder.update_structures_available = function()
+free_builder.get_structures_available = function(player)
+  game.print(serpent.block(global.free_builder_data.free_items))
   local available_structures = {}
-  for _, structure in pairs(data_import) do
-
+  for name, data in pairs(global.free_builder_data.free_items) do
+    local recipe = player.force.recipes[name]
+    local available = true
+    if recipe then
+      game.print("recipe "..recipe.name)
+      for _, ingredient in pairs(recipe.ingredients) do
+        if market.in_supply(ingredient.name) == false then
+          available = false
+          break
+        end
+      end
+    end
+    if available then table.insert(available_structures,name) print("found valid item "..name) end
   end
+  return available_structures
 end
 
 free_builder.add_free_item =function(item_name,item_cost)
@@ -82,39 +63,24 @@ free_builder.set_player_inactive = function(player)
   player.set_controller({type = defines.controllers.ghost})
 end
 
+free_builder.add_free_items = function(player)
+  print("player " ..player.name)
+  for name, _ in pairs(global.free_builder_data.free_items) do
+    local inv = player.get_main_inventory()
+    if inv.get_item_count(name) > 0 then
+      inv.remove({name=name,count=1})
+    end
+  end
+
+  for _, name in pairs(free_builder.get_structures_available(player)) do
+    player.insert({name=name,count=1})
+  end
+end
+
 free_builder.set_player_active = function(player)
   player.print({'free-builder.welcome-message'})
   player.set_controller({type = defines.controllers.god})
-  for name, item_data in pairs(global.free_builder_data.free_items) do
-    local inv = player.get_main_inventory()
-    if inv.get_item_count(name) > 0 then
-      inv.remove_item({name=name,count=9999})
-    end
-    player.insert({name=name,count=1})
-  end
-
-  --if player.get_quick_bar_slot(1) == nil then
-  --  set_quick_bar_slot(1,'pu-transport-belt')
-  --  set_quick_bar_slot(2,'pu-underground-belt')
-  --  set_quick_bar_slot(3,'pu-splitter')
-  --  set_quick_bar_slot(4,'loader')
-  --  set_quick_bar_slot(5,'pu-inserter')
-  --  set_quick_bar_slot(6,'pu-filter-inserter')
-  --  set_quick_bar_slot(7,'green-wire')
-  --  set_quick_bar_slot(8,'cm')
-  --  set_quick_bar_slot(9,'sto')
-  --  set_quick_bar_slot(10,'deconstruction-planner')
-  --  set_quick_bar_slot(11,'col')
-  --  set_quick_bar_slot(12,'ext')
-  --  set_quick_bar_slot(13,'rig')
-  --  set_quick_bar_slot(14,'frm')
-  --  set_quick_bar_slot(15,'fp')
-  --  set_quick_bar_slot(16,'inc')
-  --  set_quick_bar_slot(17,'sme')
-  --  set_quick_bar_slot(18,'bmp')
-  --  set_quick_bar_slot(19,'pp1')
-  --  set_quick_bar_slot(20,'wel')
-  --end
+  free_builder.add_free_items(player)
 end
 
 free_builder.get_value = function()
@@ -134,6 +100,7 @@ local on_built_entity = function(event)
         end
       end
     end
+    free_builder.add_free_items(player)
   end
 end
 
