@@ -1,3 +1,5 @@
+local free_builder = require('free-builder')
+
 local land = {}
 land.script_events = {
   on_player_changed_land = script.generate_event_name()
@@ -154,6 +156,9 @@ end
 local goto_land = function(player,land_index)
   if global.land_data.plots[land_index] then
     local current_land = global.land_data.plots[global.land_data.players[player.name].current_land]
+    if player.get_main_inventory() then
+      free_builder.remove_free_items(player)
+    end
     store_player_items(player,current_land)
     local plot_data = global.land_data.plots[land_index]
     player.teleport(plot_data.position,plot_data.surface)

@@ -50,7 +50,7 @@ local work_state_modules = {
 }
 
 local create_maint_gui = function(player)
-  --TODO: time until next maintenance
+  --TODO: show what is needed for next level
     local frame = player.gui.left.add({
         type = 'frame',
         direction = 'vertical',
@@ -106,6 +106,7 @@ local update_maint_gui = function(player,colony)
     local cost_table = player.gui.left.maint_gui.costs_table
     cost_table.clear()
     add_cost_headers(cost_table)
+    if colony.costs == nil then colony.costs = {0,0,0,0,0} end
   --TODO: display needs broken up by level
     for name, cost in pairs(colony.costs) do
         if cost > 0 then
@@ -254,10 +255,20 @@ local find_closest_colony = function(surface,position)
     local closest_col = nil
     for _, colony in pairs(global.maint_data.colonies) do
         if colony.surface == surface and math2d.position.distance(position,colony.position) < closest_dist then
+            closest_dist = math2d.position.distance(position,colony.position)
             closest_col = colony
         end
     end
     return closest_col
+end
+
+local update_player_maint_guis = function()
+    for _, player in pairs(game.players) do
+        local colony = find_closest_colony(player.surface.name,player.position)
+        if colony then
+            update_maint_gui(player,colony)
+        end
+    end
 end
 
 local do_update = function()
@@ -268,12 +279,7 @@ local do_update = function()
       --print(serpent.line(colony.costs))
       apply_work_state(colony)
     end
-    for _, player in pairs(game.players) do
-        local colony = find_closest_colony(player.surface.name,player.position)
-        if colony then
-            update_maint_gui(player,colony)
-        end
-    end
+    update_player_maint_guis()
 end
 
 local maint = {}
@@ -326,6 +332,8 @@ maint.update = function(tick)
         do_update()
         global.maint_data.next_update = tick + global.maint_data.update_length
         return true
+    elseif tick % 60 == 0 then
+        update_player_maint_guis()
     end
     return false
 end

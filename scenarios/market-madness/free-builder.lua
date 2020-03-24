@@ -61,13 +61,17 @@ free_builder.set_player_inactive = function(player)
   player.set_controller({type = defines.controllers.ghost})
 end
 
-free_builder.add_free_items = function(player)
+free_builder.remove_free_items = function(player)
   for name, _ in pairs(global.free_builder_data.free_items) do
     local inv = player.get_main_inventory()
     if inv.get_item_count(name) > 0 then
       inv.remove({name=name,count=1})
     end
   end
+end
+
+free_builder.add_free_items = function(player)
+  free_builder.remove_free_items(player)
 
   for _, name in pairs(free_builder.get_structures_available(player)) do
     player.insert({name=name,count=1})
@@ -133,7 +137,8 @@ local on_player_mined_entity = function(event)
   local player = game.players[event.player_index]
   if global.free_builder_data.players[player.name] then
     if global.free_builder_data.free_items[event.entity.name] then
-      if not player.force.recipe[event.entity.name] then
+      if not player.force.recipes[event.entity.name] then
+        --TODO: only take the mining result from the item
         event.buffer.clear()
       end
     end
@@ -142,13 +147,13 @@ end
 
 local on_player_changed_position = function(event)
   local player = game.players[event.player_index]
-  if global.free_builder_data.players[player.name] and global.free_builder_data.players[player.name].view_box then
-    local box = global.free_builder_data.players[player.name].view_box
-    if player.position.x > box.right_bottom.x then player.teleport({x=box.right_bottom.x,y=player.position.y}) end
-    if player.position.x < box.left_top.x then player.teleport({x=box.left_top.x,y=player.position.y}) end
-    if player.position.y > box.right_bottom.y then player.teleport({x=player.position.x,y=box.right_bottom.y}) end
-    if player.position.y < box.left_top.y then player.teleport({x=player.position.x,y=box.left_top.y}) end
-  end
+  --if global.free_builder_data.players[player.name] and global.free_builder_data.players[player.name].view_box then
+  --  local box = global.free_builder_data.players[player.name].view_box
+  --  if player.position.x > box.right_bottom.x then player.teleport({x=box.right_bottom.x,y=player.position.y}) end
+  --  if player.position.x < box.left_top.x then player.teleport({x=box.left_top.x,y=player.position.y}) end
+  --  if player.position.y > box.right_bottom.y then player.teleport({x=player.position.x,y=box.right_bottom.y}) end
+  --  if player.position.y < box.left_top.y then player.teleport({x=player.position.x,y=box.left_top.y}) end
+  --end
 end
 
 free_builder.set_player_build_area = function(player,bounding_box)

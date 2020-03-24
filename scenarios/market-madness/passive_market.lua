@@ -148,6 +148,7 @@ end
 
 
 local add_sell_order = function(name,count,location,player_name,delete_if_not_filled)
+  if delete_if_not_filled == nil then local delete_if_not_filled = false end
   if global.market_data.sell_orders_by_product[name] then
     table.insert(global.market_data.sell_orders_by_product[name],{
       count = count,
@@ -213,6 +214,7 @@ local tally_sell_orders = function()
 end
 
 local add_buy_order = function(name,count,location,player_name,delete_if_not_filled)
+  if delete_if_not_filled == nil then local delete_if_not_filled = false end
   if global.market_data.buy_orders_by_product[name] then
     table.insert(global.market_data.buy_orders_by_product[name],{
       count = count,
