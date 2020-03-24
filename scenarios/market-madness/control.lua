@@ -93,7 +93,7 @@ local on_game_created_from_scenario = function()
 
   market.add_npc_supplier('dw',30,75, true)
   market.add_npc_supplier('rat',30,102, true)
-  market.add_npc_supplier('bbh',1,2400, true)
+  market.add_npc_supplier('bbh',1,2400, false)
   market.add_npc_supplier('bde',1,2350, false)
   market.add_npc_supplier('bta',1,1600, false)
   market.add_npc_supplier('bse',1,1550,false)

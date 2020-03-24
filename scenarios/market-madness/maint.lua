@@ -238,10 +238,8 @@ local calc_colony_population = function(colony)
     for _, structure in pairs(colony.structures) do
       if structure.to_be_deconstructed(structure.force) == true then
         structure.active = false
-        structure.minable = true
       else
         structure.active = true
-        structure.minable = false
           local workers = data_import.structures[structure.name].staff
         for index, population in pairs(workers) do
           total_workers[index] = total_workers[index] + population
@@ -287,7 +285,6 @@ end
 maint.add_entity = function(entity)
     if entity.name == 'cm' then
         new_colony(entity)
-        entity.minable = false
         entity.destructible = false
         return true
     end

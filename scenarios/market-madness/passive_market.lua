@@ -155,7 +155,6 @@ local add_sell_order = function(name,count,location,player_name,delete_if_not_fi
       player = player_name,
       delete_if_not_filled = delete_if_not_filled,
     })
-    print("added sell order for "..name)
     return true
   end
   return false
@@ -163,21 +162,16 @@ end
 
 local tally_sell_orders = function()
    --remove temporary orders from the last cycle
-  local to_be_deleted = {}
   for item_name, sell_orders in pairs(global.market_data.sell_orders_by_product) do
+    local to_be_deleted = {}
     for index, order in pairs(sell_orders) do
       if order.delete_if_not_filled == true or order.count == 0 then
         table.insert(to_be_deleted,index) 
       end
     end
-
+    table.sort(to_be_deleted,function(a,b) return a > b end)
     for _, index in pairs(to_be_deleted) do
       local order = global.market_data.sell_orders_by_product[item_name][index]
-      if order.count == 0 then
-        game.print("deleting sell order because it is filled")
-      else
-        game.print("deleting sell order because it is temporary")
-      end
       table.remove(global.market_data.sell_orders_by_product[item_name], index)
     end
   end
@@ -192,7 +186,6 @@ local tally_sell_orders = function()
     })
 
     for _, provider in pairs(providers) do
-      print(provider.name)
       local contents = provider.get_inventory(defines.inventory.chest).get_contents()
       for item_name, count in pairs(contents) do
         if global.market_data.sell_orders_by_product[item_name] then
@@ -209,13 +202,12 @@ local tally_sell_orders = function()
         count = raw_data.count or 100,
         location = nil,
         player = nil,
-        delete_if_not_filled = raw_data.delete_if_not_filled or true,
+        delete_if_not_filled = raw_data.delete_if_not_filled,
       })
     end
   end
 
   for item_name, orders in pairs(global.market_data.sell_orders_by_product) do
-    --print(item_name..": "..serpent.line(orders))
     table.sort(orders,function(a,b) return a.count < b.count end)
   end
 end
@@ -228,7 +220,6 @@ local add_buy_order = function(name,count,location,player_name,delete_if_not_fil
       player = player_name,
       delete_if_not_filled = delete_if_not_filled,
     })
-    print("added buy order for "..name)
     return true
   end
   return false
@@ -236,21 +227,16 @@ end
 
 local tally_buy_orders = function()
   --remove temporary orders from the last cycle
-  local to_be_deleted = {}
   for item_name, buy_orders in pairs(global.market_data.buy_orders_by_product) do
+    local to_be_deleted = {}
     for index, order in pairs(buy_orders) do
       if order.delete_if_not_filled == true or order.count == 0 then
         table.insert(to_be_deleted,index) 
       end
     end
-
+    table.sort(to_be_deleted,function(a,b) return a > b end)
     for _, index in pairs(to_be_deleted) do
       local order = global.market_data.buy_orders_by_product[item_name][index]
-      if order.count == 0 then
-        game.print("deleting buy order because it is filled")
-      else
-        game.print("deleting buy order because it is temporary")
-      end
       table.remove(global.market_data.buy_orders_by_product[item_name], index)
     end
   end
@@ -284,7 +270,7 @@ local tally_buy_orders = function()
         count = raw_data.count or 10,
         location = nil,
         player = nil,
-        delete_if_not_filled = raw_data.delete_if_not_filled or true
+        delete_if_not_filled = raw_data.delete_if_not_filled
       })
     end
   end
@@ -342,7 +328,6 @@ local process_sales = function()
     local demand = count_demand(item_name)
     if supply > 0 or demand > 0 then
       print(item_name.." supply: "..supply..", demand: "..demand)
-
     end
 
     local sell_orders = global.market_data.sell_orders_by_product[item_name] or {}
@@ -371,21 +356,22 @@ local process_sales = function()
 end
 
 local add_npc_supplier = function(item_name,count,price,cycle_fixed)
+  if cycle_fixed == nil then local cycle_fixed = true end
   table.insert(global.market_data.npc_supply,{
     name = item_name,
     count = count,
     price = price,
-    delete_if_not_filled = cycle_fixed or true
+    delete_if_not_filled = cycle_fixed
   })
 end
 
 local add_npc_customer = function(item_name,count,price,cycle_fixed)
+  if cycle_fixed == nil then local cycle_fixed = true end
   table.insert(global.market_data.npc_demand,{
     name = item_name,
     count = count,
     price = price,
-    delete_if_not_filled = cycle_fixed or true
-
+    delete_if_not_filled = cycle_fixed
   })
 end
 
@@ -430,7 +416,6 @@ local player_buy = function(player,price,count)
   if type(player) == 'string' then player = game.players[player] end
   if player then
     global.market_data.player_wallets[player.name] = global.market_data.player_wallets[player.name] - (price*count)
-    --game.print(game.tick..':transaction: '..tostring(price*count*-1))
     update_wallet_gui(game.players[player.name])
   end
 end
@@ -439,7 +424,6 @@ local player_sell = function(player,price,count)
   if type(player) == 'string' then player = game.players[player] end
   if player then
     global.market_data.player_wallets[player.name] = global.market_data.player_wallets[player.name] + (price*count)
-    --game.print(game.tick..':transaction: '..tostring(price*count))
     update_wallet_gui(game.players[player.name])
   end
 end
@@ -503,7 +487,6 @@ end
 market.add_npc_customer = add_npc_customer
 market.add_npc_supplier = add_npc_supplier
 market.in_supply = function (name)
-  game.print("checking supply for "..name)
   return count_demand(name) < count_supply(name)
 end
 

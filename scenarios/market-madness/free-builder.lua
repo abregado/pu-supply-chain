@@ -6,13 +6,11 @@ local free_builder = {}
 local structure_list = {}
 
 free_builder.get_structures_available = function(player)
-  game.print(serpent.block(global.free_builder_data.free_items))
   local available_structures = {}
   for name, data in pairs(global.free_builder_data.free_items) do
     local recipe = player.force.recipes[name]
     local available = true
     if recipe then
-      game.print("recipe "..recipe.name)
       for _, ingredient in pairs(recipe.ingredients) do
         if market.in_supply(ingredient.name) == false then
           available = false
@@ -20,7 +18,7 @@ free_builder.get_structures_available = function(player)
         end
       end
     end
-    if available then table.insert(available_structures,name) print("found valid item "..name) end
+    if available then table.insert(available_structures,name) end
   end
   return available_structures
 end
@@ -64,7 +62,6 @@ free_builder.set_player_inactive = function(player)
 end
 
 free_builder.add_free_items = function(player)
-  print("player " ..player.name)
   for name, _ in pairs(global.free_builder_data.free_items) do
     local inv = player.get_main_inventory()
     if inv.get_item_count(name) > 0 then
@@ -136,7 +133,9 @@ local on_player_mined_entity = function(event)
   local player = game.players[event.player_index]
   if global.free_builder_data.players[player.name] then
     if global.free_builder_data.free_items[event.entity.name] then
-      event.buffer.clear()
+      if not player.force.recipe[event.entity.name] then
+        event.buffer.clear()
+      end
     end
   end
 end
