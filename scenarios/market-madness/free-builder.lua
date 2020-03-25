@@ -133,17 +133,18 @@ local on_picked_up_item = function(event)
   --end
 end
 
-local on_player_mined_entity = function(event)
-  local player = game.players[event.player_index]
-  if global.free_builder_data.players[player.name] then
-    if global.free_builder_data.free_items[event.entity.name] then
-      if not player.force.recipes[event.entity.name] then
-        --TODO: only take the mining result from the item
-        event.buffer.clear()
-      end
-    end
-  end
-end
+--local on_player_mined_entity = function(event)
+--  local player = game.players[event.player_index]
+--  if global.free_builder_data.players[player.name] then
+--    if global.free_builder_data.free_items[event.entity.name] then
+--      if not player.force.recipes[event.entity.name] then
+--        --TODO: only take the mining result from the item
+--        --event.buffer.clear()
+--
+--      end
+--    end
+--  end
+--end
 
 local on_player_changed_position = function(event)
   local player = game.players[event.player_index]

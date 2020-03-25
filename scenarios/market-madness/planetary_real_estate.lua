@@ -12,26 +12,31 @@ local create_land_gui = function(player)
     direction = 'vertical',
     caption = 'Your colonies'
   })
+
   local controls = frame.add({
     type = 'table',
     name = 'land_controls',
     column_count = 3,
   })
-  controls.add({
+  controls.style.width = 300
+  local prev = controls.add({
     type = 'button',
     name = 'previous_land',
     caption = "<"
   })
-  controls.add({
+  prev.style.width = 35
+  local landname = controls.add({
     type = 'label',
     name = 'current_land_name',
     caption = "no land"
   })
-  controls.add({
+  landname.style.width = 200
+  local next = controls.add({
     type = 'button',
     name = 'next_land',
     caption = ">"
   })
+  next.style.width = 35
 end
 
 local update_land_gui = function(player)

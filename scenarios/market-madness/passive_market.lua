@@ -1,26 +1,50 @@
 local data_import = require('__pu-supply-chain__.data-import')
 
+local count_supply = function(name)
+  local count = 0
+  if global.market_data.sell_orders_by_product[name] then
+    for _, order in pairs(global.market_data.sell_orders_by_product[name]) do
+      count = count + order.count
+    end
+  end
+  return count
+end
+
+local count_demand = function(name)
+  local count = 0
+  if global.market_data.buy_orders_by_product[name] then
+    for _, order in pairs(global.market_data.buy_orders_by_product[name]) do
+      count = count + order.count
+    end
+  end
+  return count
+end
+
+local in_supply = function (name)
+  return count_demand(name) < count_supply(name)
+end
+
 local create_wallet_gui = function(player)
   local frame = player.gui.left.add({
     type = 'frame',
     name = 'wallet_frame',
     direction = 'vertical',
-    caption = 'Wallet'
+    caption = {"wallet-gui.heading"}
   })
   frame.add({
     type = 'label',
-    caption = 'Cash: 0$',
+    caption = {"wallet-gui.balance",0},
     name = 'money'
   })
   frame.add({
     type = 'label',
-    caption = 'Time until next market update: 0s',
+    caption = {"wallet-gui.market-update",0},
     name = 'time'
   })
   frame.add({
     type = 'button',
     name = 'open_prices',
-    caption = "Open Prices"
+    caption = {"wallet-gui.open-prices"}
   })
 end
 
@@ -28,37 +52,37 @@ local add_price_headers = function(listing_gui)
   local icon = listing_gui.add({
     type = 'label',
     name = 'icon_header',
-    caption = 'Icon'
+    caption = ' '
   })
   icon.style.width = 36
   local name = listing_gui.add({
     type = 'label',
     name = 'name_header',
-    caption = 'Item name'
+    caption = {"","[font=default-semibold]",{'price-gui.item-name'},"[/font]"}
   })
   name.style.width = 220
   local price = listing_gui.add({
     type = 'label',
     name = 'price_header',
-    caption = 'Ask Price'
+    caption = {"","[font=default-semibold]",{'price-gui.price'},"[/font]"}
   })
   price.style.width = 70
   local demand_count = listing_gui.add({
   type = 'label',
   name = 'dcount_header',
-  caption = 'Demand'
+  caption = {"","[font=default-semibold]",{'price-gui.demand'},"[/font]"}
   })
   demand_count.style.width = 70
   local supply_count = listing_gui.add({
   type = 'label',
   name = 'scount_header',
-  caption = 'Supply'
+  caption = {"","[font=default-semibold]",{"price-gui.supply"},"[/font]"}
   })
   supply_count.style.width = 70
   local in_supply = listing_gui.add({
     type = 'label',
     name = 'supply_header',
-    caption = 'in Supply'
+    caption = {"","[font=default-semibold]",{"price-gui.in-supply"},"[/font]"}
   })
   in_supply.style.width = 70
 end
@@ -68,12 +92,12 @@ local create_price_gui = function(player)
     type = 'frame',
     name = 'market_listing',
     direction = 'vertical',
-    caption = 'Market Prices'
+    caption = {'price-gui.heading'}
   })
   local price_list = frame.add({
     type = 'table',
     name = 'prices',
-    column_count = 4
+    column_count = 6
   })
 end
 
@@ -111,12 +135,12 @@ local add_price_row = function(list_table,name,player)
   })
   add_text_label(list_table,game.item_prototypes[name].localised_name)
   add_text_label(list_table,"-")
-  local direction = "no"
-  if market.in_supply(name) then
-    direction = "yes"
+  local direction = {"price-gui.no"}
+  if in_supply(name) then
+    direction = {"price-gui.yes"}
   end
-  add_text_label(list_table,market.count_demand(name))
-  add_text_label(list_table,market.count_supply(name))
+  add_text_label(list_table,count_demand(name))
+  add_text_label(list_table,count_supply(name))
   add_text_label(list_table,direction)
 end
 
@@ -138,8 +162,8 @@ local update_wallet_gui = function(player,second_till_next_update)
   if not player.gui.left.wallet_frame then
     create_wallet_gui(player)
   end
-  player.gui.left.wallet_frame.money.caption = 'Cash: $'..tostring(global.market_data.player_wallets[player.name])
-  player.gui.left.wallet_frame.time.caption = 'Time until next market update: : '..tostring(second_till_next_update)..' seconds'
+  player.gui.left.wallet_frame.money.caption = {"wallet-gui.balance",tostring(global.market_data.player_wallets[player.name])}
+  player.gui.left.wallet_frame.time.caption = {"wallet-gui.market-update",tostring(second_till_next_update)}
 end
 
 local update_wallets = function(second_till_next_update)
@@ -306,33 +330,13 @@ local transfer = function(item_name,from,to)
   return transferred
 end
 
-local count_supply = function(name)
-  local count = 0
-  if global.market_data.sell_orders_by_product[name] then
-    for _, order in pairs(global.market_data.sell_orders_by_product[name]) do
-      count = count + order.count
-    end
-  end
-  return count
-end
-
-local count_demand = function(name)
-  local count = 0
-  if global.market_data.buy_orders_by_product[name] then
-    for _, order in pairs(global.market_data.buy_orders_by_product[name]) do
-      count = count + order.count
-    end
-  end
-  return count
-end
-
 local process_sales = function()
   for item_name, buy_orders in pairs(global.market_data.buy_orders_by_product) do
     local supply = count_supply(item_name)
     local demand = count_demand(item_name)
-    if supply > 0 or demand > 0 then
-      print(item_name.." supply: "..supply..", demand: "..demand)
-    end
+    --if supply > 0 or demand > 0 then
+    --  print(item_name.." supply: "..supply..", demand: "..demand)
+    --end
 
     local sell_orders = global.market_data.sell_orders_by_product[item_name] or {}
     if supply >= demand then
@@ -383,10 +387,10 @@ local on_gui_click = function(event)
   local player = game.players[event.player_index]
   if event.element.valid and event.element.name == 'open_prices' and player.gui.center.market_listing == nil then
     update_price_gui(player)
-    event.element.caption = "Close Prices"
+    event.element.caption = {"wallet-gui.close-prices"}
   elseif event.element.valid and event.element.name == 'open_prices' and player.gui.center.market_listing then
     player.gui.center.market_listing.destroy()
-    event.element.caption = "Open Prices"
+    event.element.caption = {"wallet-gui.open-prices"}
   end
 end
 
@@ -490,8 +494,6 @@ end
 
 market.add_npc_customer = add_npc_customer
 market.add_npc_supplier = add_npc_supplier
-market.in_supply = function (name)
-  return count_demand(name) < count_supply(name)
-end
+market.in_supply = in_supply
 
 return market

@@ -234,9 +234,22 @@ local on_player_changed_land = function(event)
 end
 
 local on_player_mined_entity = function(event)
+  local player = game.players[event.player_index]
+  event.buffer.remove('item-1')
+  event.buffer.remove('module-2')
+  event.buffer.remove('module-3')
+  event.buffer.remove('module-4')
+  event.buffer.remove('module-5')
+
   maint.remove_entity(event.entity)
   market.on_player_mined_entity(event)
-  free_builder.on_player_mined_entity(event)
+  --free_builder.on_player_mined_entity(event)
+
+  player.get_main_inventory().remove({name='module-1',count=1})
+  player.get_main_inventory().remove({name='module-2',count=1})
+  player.get_main_inventory().remove({name='module-3',count=1})
+  player.get_main_inventory().remove({name='module-4',count=1})
+  player.get_main_inventory().remove({name='module-5',count=1})
 end
 
 local deny_building = function(event,message)
