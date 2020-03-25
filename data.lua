@@ -169,6 +169,21 @@ splitter_item.name = "pu-splitter"
 splitter_item.place_result = "pu-splitter"
 splitter_item.subgroup = "core"
 
+--generate void energy inserter and belt
+local loader_ent = util.table.deepcopy(data.raw['loader']['loader'])
+loader_ent.name = "pu-loader"
+loader_ent.icon = "__pu-supply-chain__/graphics/icons/generic-icon.png"
+loader_ent.minable.result = nil
+
+local loader_item = util.table.deepcopy(data.raw["item"]["loader"])
+loader_item.name = "pu-loader"
+loader_item.place_result = "pu-loader"
+loader_item.subgroup = "core"
+
+local wire_item = util.table.deepcopy(data.raw["item"]["green-wire"])
+wire_item.name = "pu-wire"
+wire_item.subgroup = "core"
+
 local morale_module_1 = {
   type = "module",
   name = "module-1",
@@ -244,3 +259,5 @@ data:extend({morale_module_1,morale_module_2,morale_module_3,morale_module_4,mor
 data:extend({import_ent,import_item})
 data:extend({export_ent,export_item})
 data:extend({filter_ent,filter_item})
+data:extend({loader_ent,loader_item})
+data:extend({wire_item})
