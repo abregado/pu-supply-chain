@@ -86,12 +86,12 @@ local new_plot = function(surface,position)
     initialized = false,
     view_box = {
       left_top = {
-        x = position.x - (size/2),
-        y = position.y - (size/2),
+        x = position.x - (size/2) - 3,
+        y = position.y - (size/2) - 3,
       },
       right_bottom = {
-        x = position.x + (size/2),
-        y = position.y + (size/2),
+        x = position.x + (size/2) + 3,
+        y = position.y + (size/2) + 3,
       },
     },
     price = 10000,

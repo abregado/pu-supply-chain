@@ -43,24 +43,24 @@ local add_price_headers = function(listing_gui)
     caption = 'Ask Price'
   })
   price.style.width = 70
-  local demand = listing_gui.add({
+  local demand_count = listing_gui.add({
+  type = 'label',
+  name = 'dcount_header',
+  caption = 'Demand'
+  })
+  demand_count.style.width = 70
+  local supply_count = listing_gui.add({
+  type = 'label',
+  name = 'scount_header',
+  caption = 'Supply'
+  })
+  supply_count.style.width = 70
+  local in_supply = listing_gui.add({
     type = 'label',
     name = 'supply_header',
-    caption = 'Demand met'
+    caption = 'in Supply'
   })
-  --demand.style.width = 70
-  --local buy = listing_gui.add({
-  --type = 'label',
-  --name = 'buy_header',
-  --caption = 'Buy?'
-  --})
-  --buy.style.width = 70
-  --local sell = listing_gui.add({
-  --type = 'label',
-  --name = 'sell_header',
-  --caption = 'Sell?'
-  --})
-  --sell.style.width = 70
+  in_supply.style.width = 70
 end
 
 local create_price_gui = function(player)
@@ -111,10 +111,12 @@ local add_price_row = function(list_table,name,player)
   })
   add_text_label(list_table,game.item_prototypes[name].localised_name)
   add_text_label(list_table,"-")
-  local direction = "yes"
-  if #global.market_data.buy_orders_by_product[name] > 0 then
-    direction = "no"
+  local direction = "no"
+  if market.in_supply(name) then
+    direction = "yes"
   end
+  add_text_label(list_table,market.count_demand(name))
+  add_text_label(list_table,market.count_supply(name))
   add_text_label(list_table,direction)
 end
 

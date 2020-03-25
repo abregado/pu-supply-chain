@@ -147,13 +147,13 @@ end
 
 local on_player_changed_position = function(event)
   local player = game.players[event.player_index]
-  --if global.free_builder_data.players[player.name] and global.free_builder_data.players[player.name].view_box then
-  --  local box = global.free_builder_data.players[player.name].view_box
-  --  if player.position.x > box.right_bottom.x then player.teleport({x=box.right_bottom.x,y=player.position.y}) end
-  --  if player.position.x < box.left_top.x then player.teleport({x=box.left_top.x,y=player.position.y}) end
-  --  if player.position.y > box.right_bottom.y then player.teleport({x=player.position.x,y=box.right_bottom.y}) end
-  --  if player.position.y < box.left_top.y then player.teleport({x=player.position.x,y=box.left_top.y}) end
-  --end
+  if global.free_builder_data.players[player.name] and global.free_builder_data.players[player.name].view_box then
+    local box = global.free_builder_data.players[player.name].view_box
+    if player.position.x > box.right_bottom.x then player.teleport({x=box.right_bottom.x,y=player.position.y}) end
+    if player.position.x < box.left_top.x then player.teleport({x=box.left_top.x,y=player.position.y}) end
+    if player.position.y > box.right_bottom.y then player.teleport({x=player.position.x,y=box.right_bottom.y}) end
+    if player.position.y < box.left_top.y then player.teleport({x=player.position.x,y=box.left_top.y}) end
+  end
 end
 
 free_builder.set_player_build_area = function(player,bounding_box)

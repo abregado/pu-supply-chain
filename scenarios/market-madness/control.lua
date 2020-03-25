@@ -230,6 +230,7 @@ local on_player_changed_land = function(event)
     free_builder.set_player_build_area(player,nil)
     free_builder.set_player_inactive(player)
   end
+  player.teleport(player_land.position,player_land.surface)
 end
 
 local on_player_mined_entity = function(event)
