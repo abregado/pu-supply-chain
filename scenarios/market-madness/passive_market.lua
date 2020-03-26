@@ -159,11 +159,13 @@ local update_price_gui = function(player)
 end
 
 local update_wallet_gui = function(player,second_till_next_update)
-  if not player.gui.left.wallet_frame then
+  if global.market_data.player_wallets[player.name] and not player.gui.left.wallet_frame then
     create_wallet_gui(player)
   end
-  player.gui.left.wallet_frame.money.caption = {"wallet-gui.balance",tostring(global.market_data.player_wallets[player.name])}
-  player.gui.left.wallet_frame.time.caption = {"wallet-gui.market-update",tostring(second_till_next_update)}
+  if global.market_data.player_wallets[player.name] then
+    player.gui.left.wallet_frame.money.caption = {"wallet-gui.balance",tostring(global.market_data.player_wallets[player.name])}
+    player.gui.left.wallet_frame.time.caption = {"wallet-gui.market-update",tostring(second_till_next_update)}
+  end
 end
 
 local update_wallets = function(second_till_next_update)

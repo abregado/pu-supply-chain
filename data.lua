@@ -5,6 +5,7 @@ require('raw-items')
 require('items')
 require('recipes')
 require('production-structures')
+require('sprites')
 
 --TODO: loader item
 

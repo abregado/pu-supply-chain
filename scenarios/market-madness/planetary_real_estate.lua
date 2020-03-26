@@ -194,8 +194,8 @@ local on_gui_click = function(event)
   end
 end
 
-local on_player_created = function(event)
-  local player = game.players[event.player_index]
+local on_player_created = function(player_index)
+  local player = game.players[player_index]
   global.land_data.players[player.name] = {
     current_land = 0
   }

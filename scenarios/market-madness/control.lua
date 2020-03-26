@@ -1,10 +1,11 @@
-local handler = require("__base__.lualib.event_handler")
+local handler = require("event_handler")
 local free_builder = require('free-builder')
 local land = require('planetary_real_estate')
 local market = require('passive_market')
 local maint = require('maint')
 local data_import = require('__pu-supply-chain__.data-import')
 local math2d = require('math2d')
+local welcome = require('welcome_screen')
 
 local make_planet_force = function(name,resource_list)
   local planet_force = game.forces[name] or game.create_force(name)
@@ -125,8 +126,6 @@ end
 local on_player_created = function(event)
   local player = game.players[event.player_index]
   free_builder.set_player_state(player)
-  land.on_player_created(event)
-  market.init_player(player)
   player.set_quick_bar_slot(1,'pu-transport-belt')
   player.set_quick_bar_slot(2,'pu-underground-belt')
   player.set_quick_bar_slot(3,'pu-splitter')
@@ -158,6 +157,13 @@ local on_player_created = function(event)
   player.set_quick_bar_slot(29,'ppf')
   player.set_quick_bar_slot(30,'wpl')
 
+
+  
+  welcome.create(player)
+end
+
+local on_player_confirm = function(player_index)
+  local player = game.players[player_index]
   market.add_sell_order('mcg',500)
   market.add_sell_order('bbh',30)
   market.add_sell_order('bde',30)
@@ -165,6 +171,8 @@ local on_player_created = function(event)
   market.add_sell_order('bta',30)
   market.add_sell_order('rat',200)
   market.add_sell_order('dw',200)
+  land.on_player_created(player_index)
+  market.init_player(player)
 end
 
 local on_tick = function(event)
@@ -207,6 +215,9 @@ local on_gui_click = function(event)
     elseif event.element.name =='refresh_market' then
       
     end
+  end
+  if welcome.on_click(event) == true then
+    on_player_confirm(event.player_index)
   end
   market.on_gui_click(event)
   land.on_gui_click(event)
