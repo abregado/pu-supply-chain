@@ -1,7 +1,7 @@
 {
   "name": "pu-supply-chain",
   "version": "0.0.1",
-  "factorio_version": "0.17",
+  "factorio_version": "0.18",
   "title": "Prosperous Universe Supply Chain",
   "author": "abregado",
   "description": "An implementation of the Prosperous Universe supply chain in Factorio",
