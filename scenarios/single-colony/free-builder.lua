@@ -1,27 +1,8 @@
 local data_import = require('__pu-supply-chain__.data-import')
-local market = require('passive_market')
 
 local free_builder = {}
 
 local structure_list = {}
-
-free_builder.get_structures_available = function(player)
-  local available_structures = {}
-  for name, data in pairs(global.free_builder_data.free_items) do
-    local recipe = player.force.recipes[name]
-    local available = true
-    if recipe then
-      for _, ingredient in pairs(recipe.ingredients) do
-        if market.in_supply(ingredient.name) == false then
-          available = false
-          break
-        end
-      end
-    end
-    if available then table.insert(available_structures,name) end
-  end
-  return available_structures
-end
 
 free_builder.add_free_item =function(item_name,item_cost)
   global.free_builder_data.free_items[item_name] = {name = item_name,cost = item_cost}
@@ -72,9 +53,9 @@ end
 
 free_builder.add_free_items = function(player)
   free_builder.remove_free_items(player)
-
-  for _, name in pairs(free_builder.get_structures_available(player)) do
-    player.insert({name=name,count=1})
+  
+  for _, name in pairs(global.free_builder_data.free_items) do
+    player.insert({name=name.name,count=1})
   end
 end
 

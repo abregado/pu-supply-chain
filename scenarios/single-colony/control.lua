@@ -1,11 +1,39 @@
 local handler = require("event_handler")
 local free_builder = require('free-builder')
-local land = require('planetary_real_estate')
-local market = require('passive_market')
 local maint = require('maint')
 local data_import = require('__pu-supply-chain__.data-import')
 local math2d = require('math2d')
 local welcome = require('welcome_screen')
+
+local new_plot = function(surface,position)
+  if type(surface) == 'string' then surface = game.surfaces[surface] end
+  local size = 256
+  local view_box = {
+      left_top = {
+        x = position.x - (size/2),
+        y = position.y - (size/2),
+      },
+      right_bottom = {
+        x = position.x + (size/2),
+        y = position.y + (size/2),
+      },
+    }
+  surface.request_to_generate_chunks({0,0},size/32)
+  return view_box
+end
+
+local init_plot = function(surface,view_box)
+  if type(surface) == 'string' then surface = game.surfaces[surface] end
+  local tiles = {}
+  for x = view_box.left_top.x, view_box.right_bottom.x do
+    for y = view_box.left_top.y, view_box.right_bottom.y do
+      local tile_type = 'lab-dark-1'
+      if (x+y)%2 == 0 then tile_type = 'lab-dark-2' end
+      table.insert(tiles,{name=tile_type,position={x=x,y=y}})
+    end
+  end
+  surface.set_tiles(tiles)
+end
 
 local make_planet_force = function(name,resource_list)
   local planet_force = game.forces[name] or game.create_force(name)
@@ -14,10 +42,6 @@ local make_planet_force = function(name,resource_list)
     if recipe_lua.prototype.group.name == 'production' or
       recipe_lua.prototype.group.name == 'combat' or
       recipe_lua.prototype.group.name == 'logistics' or
---[[      recipe_lua.prototype.subgroup.name == 'settler' or
-      recipe_lua.prototype.subgroup.name == 'technician' or
-      recipe_lua.prototype.subgroup.name == 'engineer' or
-      recipe_lua.prototype.subgroup.name == 'scientist' or]]
       recipe_lua.prototype.group.name == 'intermediate-products' then
       recipe_lua.enabled = false
     end
@@ -47,46 +71,6 @@ local on_game_created_from_scenario = function()
   free_builder.add_free_item('loader',10)
   free_builder.add_free_item('deconstruction-planner',10)
   free_builder.add_free_item('green-wire',10)
-  free_builder.add_free_item('sto',10)
-  free_builder.add_free_item('bmp',10)
-  free_builder.add_free_item('col',10)
-  free_builder.add_free_item('ext',10)
-  free_builder.add_free_item('fp',10)
-  free_builder.add_free_item('frm',10)
-  free_builder.add_free_item('inc',10)
-  free_builder.add_free_item('pp1',10)
-  free_builder.add_free_item('rig',10)
-  free_builder.add_free_item('sme',10)
-  free_builder.add_free_item('wel',10)
-  free_builder.add_free_item('chp',10)
-  free_builder.add_free_item('clf',10)
-  free_builder.add_free_item('fmt',10)
-  free_builder.add_free_item('fs',10)
-  free_builder.add_free_item('gf',10)
-  free_builder.add_free_item('hyf',10)
-  free_builder.add_free_item('pol',10)
-  free_builder.add_free_item('pp2',10)
-  free_builder.add_free_item('ppf',10)
-  free_builder.add_free_item('wpl',10)
-  free_builder.add_free_item('clr',10)
-  free_builder.add_free_item('elp',10)
-  free_builder.add_free_item('ivp',10)
-  free_builder.add_free_item('lbo',10)
-  free_builder.add_free_item('lm',10)
-  free_builder.add_free_item('mca',10)
-  free_builder.add_free_item('orc',10)
-  free_builder.add_free_item('pp3',10)
-  free_builder.add_free_item('sca',10)
-  free_builder.add_free_item('tnp',10)
-  free_builder.add_free_item('aml',10)
-  free_builder.add_free_item('apf',10)
-  free_builder.add_free_item('asm',10)
-  free_builder.add_free_item('pp4',10)
-  free_builder.add_free_item('sd',10)
-  free_builder.add_free_item('eep',10)
-  free_builder.add_free_item('sl',10)
-  market.on_load('imp','exp')
-  land.on_load()
   maint.on_load()
   make_planet_force('montem',data_import.planets['montem'])
 
@@ -110,17 +94,15 @@ local on_game_created_from_scenario = function()
     width=1,
     height=1
   })
-  land.add_plot('abregado-rae',{x=0,y=0})
-  land.add_plot('abregado-rae',{x=512,y=0})
-  land.add_plot('abregado-rae',{x=512,y=512})
-  land.add_plot('abregado-rae',{x=-512,y=0})
-  land.add_plot('abregado-rae',{x=-512,y=512})
-  land.add_plot('abregado-rae',{x=0,y=512})
-  land.add_plot('abregado-rae',{x=-512,y=0})
-  land.add_plot('abregado-rae',{x=0,y=-512})
+  global.play_area = new_plot('abregado-rae',{x=0,y=0})
+  global.play_area_initialized = false
+end
 
-  market.add_npc_supplier('dw',30,75, true)
-  market.add_npc_supplier('rat',30,102, true)
+local on_player_changed_surface = function(event)
+  if global.play_area_initialized == false then
+    init_plot('abregado-rae',global.play_area)
+    global.play_area_initialized = true
+  end
 end
 
 local on_player_created = function(event)
@@ -156,92 +138,26 @@ local on_player_created = function(event)
   player.set_quick_bar_slot(28,'pp2')
   player.set_quick_bar_slot(29,'ppf')
   player.set_quick_bar_slot(30,'wpl')
-
-
   
   welcome.create(player)
 end
 
 local on_player_confirm = function(player_index)
   local player = game.players[player_index]
-  market.add_sell_order('mcg',500)
-  market.add_sell_order('bbh',30)
-  market.add_sell_order('bde',30)
-  market.add_sell_order('bse',100)
-  market.add_sell_order('bta',30)
-  market.add_sell_order('rat',200)
-  market.add_sell_order('dw',200)
-  land.on_player_created(player_index)
-  market.init_player(player)
+  player.teleport({0,0},'abregado-rae')
+  free_builder.set_player_active(player)
 end
 
 local on_tick = function(event)
-  local updated = maint.update(event.tick)
-  if updated then
-    market.update()
-  elseif event.tick % 60 == 0 then
-    market.update_wallets(math.floor((global.maint_data.next_update-event.tick)/60))
-  end
+  maint.update(event.tick)
 end
 
 local on_gui_click = function(event)
-  local player = game.players[event.player_index]
-  if event.element.valid then
-    if event.element.name == 'buy_land' then
-      local plot_data = global.land_data.plots[global.land_data.players[player.name].current_land]
-      if plot_data then
-        market.add_market_area(player,plot_data.surface,{
-          left_top = {
-            x = plot_data.position.x - 32,
-            y = plot_data.position.y - 32,
-          },
-          right_bottom = {
-            x = plot_data.position.x + 32,
-            y = plot_data.position.y + 32,
-          }
-        })
-        plot_data.owner = player.name
-        market.buy(player,plot_data.price,1)
-        land.update_player(player)
-        land.goto_land(player,plot_data.index)
-        player.insert({name='cm',count=1})
-        --player.insert({name='mcg',count=100})
-        --player.insert({name='tru',count=8})
-        --player.insert({name='psl',count=12})
-        --player.insert({name='lde',count=4})
-        --player.insert({name='lse',count=4})
-        --player.insert({name='lta',count=4})
-      end
-    elseif event.element.name =='refresh_market' then
-      
+  --if global.play_area_initialized then
+    if welcome.on_click(event) == true then
+      on_player_confirm(event.player_index)
     end
-  end
-  if welcome.on_click(event) == true then
-    on_player_confirm(event.player_index)
-  end
-  market.on_gui_click(event)
-  land.on_gui_click(event)
-end
-
-local on_player_joined_game = function(event)
-  --TODO: destroy their maint gui if they have one
-  local player = game.players[event.player_index]
-  player.teleport({0,0},'nauvis')
-end
-
-local on_player_changed_land = function(event)
-  local player = game.players[event.player_index]
-  local player_land = global.land_data.plots[event.land_index]
-  if player_land.owner == player.name then
-    free_builder.set_player_build_area(player,player_land.view_box)
-    free_builder.set_player_active(player)
-    player.force = player_land.force
-    land.retrieve_player_storage(player,player_land)
-  else
-    free_builder.set_player_build_area(player,nil)
-    free_builder.set_player_inactive(player)
-  end
-  player.teleport(player_land.position,player_land.surface)
+  --end
 end
 
 local on_player_mined_entity = function(event)
@@ -253,7 +169,6 @@ local on_player_mined_entity = function(event)
   event.buffer.remove('module-5')
 
   maint.remove_entity(event.entity)
-  market.on_player_mined_entity(event)
   --free_builder.on_player_mined_entity(event)
 
   player.get_main_inventory().remove({name='module-1',count=1})
@@ -286,25 +201,22 @@ local on_built_entity = function(event)
   if not near_colony then
     deny_building(event,{"msg.build-core-module"})
     return false
-  elseif math2d.position.distance(near_colony.position,event.created_entity.position) > 100 and event.created_entity.name ~= 'cm' then
+  elseif math2d.position.distance(near_colony.position,event.created_entity.position) > 100000 and event.created_entity.name ~= 'cm' then
     deny_building(event,{"msg.too-far-from-colony"})
     return false
   else
     maint.add_entity(event.created_entity)
   end
 
-  market.on_built_entity(event)
   free_builder.on_built_entity(event)
 end
 
 main_events = {
   [defines.events.on_game_created_from_scenario] = on_game_created_from_scenario,
   [defines.events.on_player_created] = on_player_created,
-  [defines.events.on_player_joined_game] = on_player_joined_game,
+  [defines.events.on_player_changed_surface] = on_player_changed_surface,
   [defines.events.on_tick] = on_tick,
   [defines.events.on_gui_click] = on_gui_click,
-  [defines.events.on_gui_confirmed] = market.on_gui_confirmed,
-  [defines.events.on_gui_checked_state_changed] = market.on_gui_checked_state_changed,
   [defines.events.on_player_mined_entity] = on_player_mined_entity,
   [defines.events.on_player_mined_item] = free_builder.on_player_mined_item,
   [defines.events.on_picked_up_item] = free_builder.on_picked_up_item,
@@ -314,5 +226,3 @@ main_events = {
 }
 
 handler.setup_event_handling({main_events})
-
-script.on_event(land.script_events.on_player_changed_land,on_player_changed_land)
