@@ -58,6 +58,11 @@ local create_maint_gui = function(player)
         caption = {'maint-gui.heading'}
     })
     frame.add({
+      type = 'label',
+      caption = {"maint-gui.market-update",0},
+      name = 'time'
+    })
+    frame.add({
         type = 'label',
         caption = {"maint-gui.population",0,0,0,0,0},
         name = 'population'
@@ -129,6 +134,7 @@ local update_maint_gui = function(player,colony)
         create_maint_gui(player)
     end
     local pop_label = player.gui.left.maint_gui.population
+    local time_label = player.gui.left.maint_gui.time
     local hap_label = player.gui.left.maint_gui.happiness
     local cost_table = player.gui.left.maint_gui.costs_table
     cost_table.clear()
@@ -179,7 +185,8 @@ local update_maint_gui = function(player,colony)
             })
         end
     end
-
+    local second_till_next_update = math.ceil((global.maint_data.next_update-game.ticks_played)/60)
+    time_label.caption = {"maint-gui.market-update",tostring(second_till_next_update)}
     pop_label.caption = {"maint-gui.population",colony.population[1],colony.population[2],colony.population[3],colony.population[4],colony.population[5]}
     hap_label.caption = {"maint-gui.happiness",colony.work_state}
 end

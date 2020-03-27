@@ -5,6 +5,7 @@ local data_import = require('__pu-supply-chain__.data-import')
 local math2d = require('math2d')
 local welcome = require('welcome_screen')
 
+
 local new_plot = function(surface,position)
   if type(surface) == 'string' then surface = game.surfaces[surface] end
   local size = 256
@@ -76,7 +77,7 @@ local on_game_created_from_scenario = function()
 
   global.next_update = 0
 
-  game.create_surface('abregado-rae',{
+  local surface = game.create_surface('abregado-rae',{
     seed=555,
     water='none',
     starting_area='none',
@@ -94,6 +95,7 @@ local on_game_created_from_scenario = function()
     width=1,
     height=1
   })
+  surface.always_day = true
   global.play_area = new_plot('abregado-rae',{x=0,y=0})
   global.play_area_initialized = false
 end
@@ -146,6 +148,17 @@ local on_player_confirm = function(player_index)
   local player = game.players[player_index]
   player.teleport({0,0},'abregado-rae')
   free_builder.set_player_active(player)
+  player.insert({name='cm',count=1})
+  player.insert({name='dw',count=300})
+  player.insert({name='rat',count=477})
+  player.insert({name='cof',count=10})
+  player.insert({name='pwo',count=10})
+  player.insert({name='ove',count=30})
+  player.insert({name='bbh',count=20})
+  player.insert({name='bse',count=60})
+  player.insert({name='bse',count=20})
+  player.insert({name='bta',count=15})
+  player.insert({name='mcg',count=1500})
 end
 
 local on_tick = function(event)
