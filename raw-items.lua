@@ -3,7 +3,7 @@
 local resource_categories = {}
 resource_categories['gas'] = {'amm','ar','f','h','he','he3','n','ne','o'}
 resource_categories['liquid'] = {'h2o','bts','les'}
-resource_categories['solid'] = {'alo','auo','ber','cli','cuo','feo','gal','hal','lst','mag','mg','s','sio','tai','tio','ts','zir'}
+resource_categories['solid'] = {'tco','alo','auo','ber','cli','cuo','feo','gal','hal','lst','mag','mg','s','sio','tai','tio','ts','zir'}
 
 for cat_name, cat_items in pairs(resource_categories) do
   data:extend({

@@ -492,7 +492,7 @@ data_import.recipes = {
 data_import.raw_recipes = {}
 data_import.raw_recipes['col'] = {'amm','ar','f','h','he','he3','n','ne','o'}
 data_import.raw_recipes['rig'] = {'h2o','bts','les'}
-data_import.raw_recipes['ext'] = {'alo','auo','ber','cli','cuo','feo','gal','hal','lst','mag','mg','s','sio','tai','tio','ts','zir'}
+data_import.raw_recipes['ext'] = {'tco','alo','auo','ber','cli','cuo','feo','gal','hal','lst','mag','mg','s','sio','tai','tio','ts','zir'}
 
 
 data_import.planets = {
@@ -512,6 +512,7 @@ data_import.planets = {
     ['sio'] = 1,
     ['tai'] = 1,
     ['tio'] = 1,
+    ['tco'] = 1,
     ['ts'] = 1,
     ['zir'] = 1,
     ['h2o'] = 3,

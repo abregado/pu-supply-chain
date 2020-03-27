@@ -4,7 +4,9 @@ local maint = require('maint')
 local data_import = require('__pu-supply-chain__.data-import')
 local math2d = require('math2d')
 local welcome = require('welcome_screen')
-
+local story_table = require('story-table')
+local quest_gui = require('quest_gui')
+local story = require('tom_story')
 
 local new_plot = function(surface,position)
   if type(surface) == 'string' then surface = game.surfaces[surface] end
@@ -62,7 +64,14 @@ local make_planet_force = function(name,resource_list)
   planet_force.inserter_stack_size_bonus = 9
 end
 
+local on_game_created_or_loaded = function()
+  quest_gui.on_load()
+  story.on_load('main_story',story_table)
+end
+
 local on_game_created_from_scenario = function()
+  global.story_started = false
+  story.init('main_story',story_table)
   free_builder.on_load()
   free_builder.add_free_item('pu-transport-belt',10)
   free_builder.add_free_item('pu-splitter',10)
@@ -74,7 +83,8 @@ local on_game_created_from_scenario = function()
   free_builder.add_free_item('green-wire',10)
   maint.on_load()
   make_planet_force('montem',data_import.planets['montem'])
-
+  quest_gui.init(game.forces.montem)
+  
   global.next_update = 0
 
   local surface = game.create_surface('abregado-rae',{
@@ -98,6 +108,7 @@ local on_game_created_from_scenario = function()
   surface.always_day = true
   global.play_area = new_plot('abregado-rae',{x=0,y=0})
   global.play_area_initialized = false
+  on_game_created_or_loaded()
 end
 
 local on_player_changed_surface = function(event)
@@ -144,33 +155,52 @@ local on_player_created = function(event)
   welcome.create(player)
 end
 
+local safe_insert = function(player,item_stack)
+  player.force.item_production_statistics.on_flow(item_stack.name,item_stack.count)
+  player.insert(item_stack)
+end
+
 local on_player_confirm = function(player_index)
   local player = game.players[player_index]
   player.teleport({0,0},'abregado-rae')
   free_builder.set_player_active(player)
-  player.insert({name='cm',count=1})
-  player.insert({name='dw',count=300})
-  player.insert({name='rat',count=477})
-  player.insert({name='cof',count=10})
-  player.insert({name='pwo',count=10})
-  player.insert({name='ove',count=30})
-  player.insert({name='bbh',count=20})
-  player.insert({name='bse',count=60})
-  player.insert({name='bse',count=20})
-  player.insert({name='bta',count=15})
-  player.insert({name='mcg',count=1500})
+  player.force = game.forces.montem
+  if player_index == 1 then
+    safe_insert(player,{name='cm',count=1})
+    safe_insert(player,{name='dw',count=300})
+    safe_insert(player,{name='rat',count=477})
+    safe_insert(player,{name='cof',count=10})
+    safe_insert(player,{name='pwo',count=10})
+    safe_insert(player,{name='ove',count=30})
+    safe_insert(player,{name='bbh',count=20})
+    safe_insert(player,{name='bse',count=60})
+    safe_insert(player,{name='bde',count=20})
+    safe_insert(player,{name='bde',count=15})
+    safe_insert(player,{name='mcg',count=1500})
+    global.story_started = true
+  else
+    safe_insert(player,{name='dw',count=100})
+    safe_insert(player,{name='rat',count=100})
+    safe_insert(player,{name='bbh',count=10})
+    safe_insert(player,{name='bse',count=30})
+    safe_insert(player,{name='bde',count=10})
+    safe_insert(player,{name='bta',count=5})
+    safe_insert(player,{name='mcg',count=500})
+  end
 end
 
 local on_tick = function(event)
   maint.update(event.tick)
+  if event.tick % 60 == 1 then
+    story.update('main_story')
+  end
 end
 
 local on_gui_click = function(event)
-  --if global.play_area_initialized then
-    if welcome.on_click(event) == true then
-      on_player_confirm(event.player_index)
-    end
-  --end
+  quest_gui.on_gui_click(event)
+  if welcome.on_click(event) == true then
+    on_player_confirm(event.player_index)
+  end
 end
 
 local on_player_mined_entity = function(event)
@@ -230,6 +260,7 @@ main_events = {
   [defines.events.on_player_changed_surface] = on_player_changed_surface,
   [defines.events.on_tick] = on_tick,
   [defines.events.on_gui_click] = on_gui_click,
+  [defines.events.on_player_joined_game] = quest_gui.on_player_joined_game,
   [defines.events.on_player_mined_entity] = on_player_mined_entity,
   [defines.events.on_player_mined_item] = free_builder.on_player_mined_item,
   [defines.events.on_picked_up_item] = free_builder.on_picked_up_item,
@@ -239,3 +270,5 @@ main_events = {
 }
 
 handler.setup_event_handling({main_events})
+
+script.on_load(on_game_created_or_loaded)

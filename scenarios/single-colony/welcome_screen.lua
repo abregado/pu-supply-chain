@@ -22,12 +22,13 @@ welcome.create = function(player)
   })
   scroller.style.height = 400
   
-  for h=1,10 do
+  for h=1,7 do
     local text = scroller.add({
       type='label',
       caption = {"",{"welcome-screen.text-"..h},"\n"},
     })
     text.style.single_line = false
+    text.style.width = 380
   end
   
   frame.add({

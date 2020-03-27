@@ -50,7 +50,6 @@ local work_state_modules = {
 }
 
 local create_maint_gui = function(player)
-  --TODO: show what is needed for next level
     local frame = player.gui.left.add({
         type = 'frame',
         direction = 'vertical',
@@ -140,7 +139,6 @@ local update_maint_gui = function(player,colony)
     cost_table.clear()
     add_cost_headers(cost_table)
     if colony.costs == nil then colony.costs = {} end
-  --TODO: display needs broken up by level
     local already_listed = {}
     for _, data in pairs(colony.costs) do
         if data.cost > 0 then
@@ -207,6 +205,7 @@ local pay_costs = function(colony)
 end
 
 local apply_work_state = function(colony)
+  --TODO: per colonist type work state
   for _, structure in pairs(colony.structures) do
     local mod_inv = structure.get_module_inventory()
     if mod_inv then
@@ -234,6 +233,7 @@ local new_colony = function(core_module)
     population = {10,0,0,0,0},
     work_state = 0,
     })
+  core_module.minable = false
     --game.print({'msg.new-colony-created'})
 end
 
