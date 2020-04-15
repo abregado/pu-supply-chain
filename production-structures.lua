@@ -47,6 +47,7 @@ data:extend({{
 
 --generate production structures (generic assembling machine, with their own crafting category)
 local structures = data_import.structures
+local extra_structures = data_import.extra_structures
 
 local generate_production_structure = function(structure_data)
   local tier = "core"
@@ -97,5 +98,19 @@ end
 for _, structure_data in pairs(structures) do
   if not structure_data.skip then
     generate_production_structure(structure_data)
+  end
+end
+
+for _, structure_data in pairs(extra_structures) do
+  if not structure_data.skip then
+    generate_production_structure(structure_data)
+  local cats = {
+    ['pb1'] = {"bmp","frm","fp","inc","pp1","sme","wel"},
+    ['pb2'] = {"chp","clf","fmt","fs","gf","hyf","ppf","pol","pp2","ref","wpl"},
+    ['pb3'] = {"clr","elp","ivp","lbo","mca","orc","pp3","sca","tnp"},
+    ['pb4'] = {"aml","asm","apf","pp4","sd"},
+    ['pb5'] = {"eep","sl"},
+  }
+  data.raw['assembling-machine'][structure_data.name].crafting_categories = cats[structure_data.name]
   end
 end

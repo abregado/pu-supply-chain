@@ -272,6 +272,15 @@ data_import.structures["tnp"]={name="tnp",cost={{"lbh",6},{"lde",8},{"lse",16},{
 data_import.structures["wel"]={name="wel",cost={{"bbh",8},{"bse",6},{"mcg",76},},staff={70,0,0,0,0,}}
 data_import.structures["wpl"]={name="wpl",cost={{"lbh",6},{"lse",3},{"bde",2},{"tru",6},{"mcg",160},},staff={0,70,0,0,0,}}
 
+data_import.extra_structures = {}
+data_import.extra_structures["pb1"]={name="pb1",cost={{"bse",4},{"bbh",3},{"bde",3},{"bta",1},{"mcg",76},},staff={50,0,0,0,0,}}
+data_import.extra_structures["pb2"]={name="pb2",cost={{"bbh",6},{"bse",3},{"bde",6},{"bta",1},{"tru",4},{"mcg",100},},staff={25,50,0,0,0,}}
+data_import.extra_structures["pb3"]={name="pb3",cost={{"lbh",4},{"lse",4},{"lde",8},{"lta",2},{"mcg",128},},staff={0,25,50,0,0,}}
+data_import.extra_structures["pb4"]={name="pb4",cost={{"rse",8},{"rbh",6},{"rde",6},{"rta",2},{"mcg",160},},staff={0,0,25,50,0,}}
+data_import.extra_structures["pb5"]={name="pb5",cost={{"ase",8},{"abh",6},{"ade",6},{"ata",2},{"mcg",160},},staff={0,0,0,25,50,}}
+data_import.extra_structures["mxt"]={name="mxt",cost={{"bse",16},{"mcg",100},},staff={100,0,0,0,0,},skip=true}
+
+
 --TODO: add extractor recipes
 data_import.recipes = {
   {name="aml-be",category="aml",time=12960,ingredients={{"ber",1},{"tai",1},{"bts",1},{"zir",1},},results={{"be",1},{"al",1},{"si",1},}},
