@@ -6,5 +6,5 @@
   "author": "abregado",
   "description": "An implementation of the Prosperous Universe supply chain in Factorio",
   "homepage": " ",
-  "dependencies": ["base"]
+  "dependencies": ["minimal-no-base-mod"]
 }

@@ -57,7 +57,7 @@ local generate_production_structure = function(structure_data)
   elseif structure_data.staff[2] > 0 then tier = "settler"
   elseif structure_data.staff[1] > 0 then tier = "pioneer" end
 
-  local structure_ent = util.table.deepcopy(data.raw['assembling-machine']['assembling-machine-1'])
+  local structure_ent = util.table.deepcopy(data.raw['assembling-machine']['dummy-assembling-machine'])
   structure_ent.name = structure_data.name
   structure_ent.resource_categories = {structure_data.category}
   structure_ent.icon = "__pu-supply-chain__/graphics/icons/"..structure_data.name..".png"
@@ -69,8 +69,7 @@ local generate_production_structure = function(structure_data)
     height = 96,
   }
   structure_ent.crafting_categories = {structure_data.name}
-  structure_ent.minable.results = structure_data.cost
-  structure_ent.minable.result = nil
+  structure_ent.minable = {results = structure_data.cost,mining_time=1}
   structure_ent.crafting_speed = 1
   structure_ent.energy_source = {
     type = "void"
@@ -78,7 +77,7 @@ local generate_production_structure = function(structure_data)
   structure_ent.allowed_effects = {'speed'}
   structure_ent.module_specification = {module_slots= 1}
 
-  local structure_item = util.table.deepcopy(data.raw["item"]["stone-furnace"])
+  local structure_item = util.table.deepcopy(data.raw["item"]["dummy-item"])
   structure_item.name = structure_data.name
   structure_item.place_result = structure_data.name
   structure_item.icon = "__pu-supply-chain__/graphics/icons/"..structure_data.name..".png"
