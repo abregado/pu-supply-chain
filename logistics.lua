@@ -193,6 +193,24 @@ local wire_item = {
     wire_count = 100
   }
 
+local decon_planner =   {
+    type = "deconstruction-item",
+    name = "labor-planner",
+    icon = "__pu-supply-chain__/graphics/icons/generic-icon.png",
+    icon_size = 64, icon_mipmaps = 4,
+    subgroup = "core",
+    order = "c[automated-construction]-b[deconstruction-planner]",
+    stack_size = 1,
+    entity_filter_count = 30,
+    tile_filter_count = 30,
+    selection_color = {1, 0, 0},
+    alt_selection_color = {0, 0, 1},
+    selection_mode = {"deconstruct"},
+    alt_selection_mode = {"cancel-deconstruct"},
+    selection_cursor_box_type = "not-allowed",
+    alt_selection_cursor_box_type = "not-allowed",
+  },
+
 data:extend(
 {
   {
@@ -278,4 +296,4 @@ data:extend({import_ent,import_item})
 data:extend({export_ent,export_item})
 data:extend({filter_ent,filter_item})
 data:extend({loader_ent,loader_item})
-data:extend({wire_item})
+data:extend({wire_item,decon_planner})

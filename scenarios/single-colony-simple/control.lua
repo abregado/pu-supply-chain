@@ -30,8 +30,8 @@ local init_plot = function(surface,view_box)
   local tiles = {}
   for x = view_box.left_top.x, view_box.right_bottom.x do
     for y = view_box.left_top.y, view_box.right_bottom.y do
-      local tile_type = 'lab-dark-1'
-      if (x+y)%2 == 0 then tile_type = 'lab-dark-2' end
+      local tile_type = 'grey-1'
+      if (x+y)%2 == 0 then tile_type = 'grey-2' end
       table.insert(tiles,{name=tile_type,position={x=x,y=y}})
     end
   end
@@ -85,9 +85,9 @@ local on_game_created_from_scenario = function()
   free_builder.add_free_item('pu-underground-belt',10)
   free_builder.add_free_item('pu-inserter',10)
   free_builder.add_free_item('pu-filter-inserter',10)
-  free_builder.add_free_item('loader',10)
-  free_builder.add_free_item('deconstruction-planner',10)
-  free_builder.add_free_item('green-wire',10)
+  free_builder.add_free_item('pu-loader',10)
+  free_builder.add_free_item('labor-planner',10)
+  free_builder.add_free_item('pu-wire',10)
   maint.on_load()
   make_planet_force('montem',data_import.planets['montem'])
   quest_gui.init(game.forces.montem)
@@ -103,11 +103,11 @@ local on_game_created_from_scenario = function()
       elevation=100,
     },
     autoplace_controls={
-      ['iron-ore'] = {size='none'},
-      ['copper-ore'] = {size='none'},
-      ['stone'] = {size='none'},
-      ['coal'] = {size='none'},
-      ['enemy-base'] = {size='none'},
+      --['iron-ore'] = {size='none'},
+      --['copper-ore'] = {size='none'},
+      --['stone'] = {size='none'},
+      --['coal'] = {size='none'},
+      --['enemy-base'] = {size='none'},
     },
     width=1,
     height=1
@@ -137,7 +137,7 @@ local on_player_created = function(event)
   player.set_quick_bar_slot(7,'pu-wire')
   player.set_quick_bar_slot(8,'cm')
   player.set_quick_bar_slot(9,'sto')
-  player.set_quick_bar_slot(10,'deconstruction-planner')
+  player.set_quick_bar_slot(10,'labor-planner')
   player.set_quick_bar_slot(11,'col')
   player.set_quick_bar_slot(12,'ext')
   player.set_quick_bar_slot(13,'rig')
