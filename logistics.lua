@@ -116,6 +116,8 @@ inserter_ent.icon_size = 64
 inserter_ent.energy_source = {
   type = "void"
 }
+inserter_ent.collision_box = {{-0.15, -0.15}, {0.15, 0.15}}
+inserter_ent.selection_box = {{-0.4, -0.35}, {0.4, 0.45}}
 
 local inserter_item = util.table.deepcopy(data.raw["item"]["dummy-item"])
 inserter_item.name = "pu-inserter"
@@ -132,6 +134,8 @@ filter_ent.icon_size = 64
 filter_ent.energy_source = {
   type = "void"
 }
+filter_ent.collision_box = {{-0.15, -0.15}, {0.15, 0.15}}
+filter_ent.selection_box = {{-0.4, -0.35}, {0.4, 0.45}}
 
 local filter_item = util.table.deepcopy(data.raw["item"]["dummy-item"])
 filter_item.name = "pu-filter-inserter"
@@ -144,6 +148,27 @@ local belt_ent = util.table.deepcopy(data.raw['transport-belt']['dummy-transport
 belt_ent.name = "pu-transport-belt"
 belt_ent.icon = "__pu-supply-chain__/graphics/icons/generic-icon.png"
 belt_ent.icon_size = 64
+belt_ent.collision_box = {{-0.4, -0.4}, {0.4, 0.4}}
+belt_ent.selection_box = {{-0.5, -0.5}, {0.5, 0.5}}
+belt_ent.belt_animation_set = {animation_set = {
+  filename = "__pu-supply-chain__/graphics/entity/generic-belt.png",
+  priority = "extra-high",
+  width = 32,
+  height = 32,
+  frame_count = 1,
+  direction_count = 20,
+}}
+
+--{
+--  direction_count = 4,
+--  frame_count = 1,
+--  filename = "__pu-supply-chain__/graphics/entity/generic-belt.png",
+--  slice = 32,
+--  lines_per_file = 2,
+--  size = 32
+--}
+belt_ent.speed = 0.03125
+
 
 local belt_item = util.table.deepcopy(data.raw["item"]["dummy-item"])
 belt_item.name = "pu-transport-belt"
@@ -156,6 +181,9 @@ local underground_belt_ent = util.table.deepcopy(data.raw['underground-belt']['d
 underground_belt_ent.name = "pu-underground-belt"
 underground_belt_ent.icon = "__pu-supply-chain__/graphics/icons/generic-icon.png"
 underground_belt_ent.icon_size = 64
+underground_belt_ent.collision_box = {{-0.4, -0.4}, {0.4, 0.4}}
+underground_belt_ent.selection_box = {{-0.5, -0.5}, {0.5, 0.5}}
+
 
 local underground_belt_item = util.table.deepcopy(data.raw["item"]["dummy-item"])
 underground_belt_item.name = "pu-underground-belt"
@@ -168,6 +196,9 @@ local splitter_ent = util.table.deepcopy(data.raw['splitter']['dummy-splitter'])
 splitter_ent.name = "pu-splitter"
 splitter_ent.icon = "__pu-supply-chain__/graphics/icons/generic-icon.png"
 splitter_ent.icon_size = 64
+splitter_ent.collision_box = {{-0.9, -0.4}, {0.9, 0.4}}
+splitter_ent.selection_box = {{-0.9, -0.5}, {0.9, 0.5}}
+
 
 local splitter_item = util.table.deepcopy(data.raw["item"]["dummy-item"])
 splitter_item.name = "pu-splitter"
@@ -176,11 +207,13 @@ splitter_item.subgroup = "core"
 splitter_item.icon = "__pu-supply-chain__/graphics/icons/generic-icon.png"
 splitter_item.icon_size = 64
 
---generate void energy inserter and belt
 local loader_ent = util.table.deepcopy(data.raw['loader-1x1']['dummy-loader-1x1'])
 loader_ent.name = "pu-loader"
 loader_ent.icon = "__pu-supply-chain__/graphics/icons/generic-icon.png"
 loader_ent.icon_size = 64
+loader_ent.collision_box = {{-0.15, -0.15}, {0.15, 0.15}}
+loader_ent.selection_box = {{-0.4, -0.35}, {0.4, 0.45}}
+
 
 local loader_item = util.table.deepcopy(data.raw["item"]["dummy-item"])
 loader_item.name = "pu-loader"
