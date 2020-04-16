@@ -11,6 +11,7 @@ core_ent.picture = {
 }
 core_ent.collision_box = {{-1.5, -1.5}, {1.5, 1.5}}
 core_ent.selection_box = {{-1.5, -1.5}, {1.5, 1.5}}
+core_ent.inventory_size = 49
 
 local core_item = util.table.deepcopy(data.raw["item"]["dummy-item"])
 core_item.name = "cm"
@@ -40,6 +41,7 @@ storage_ent.picture = {
 }
 storage_ent.collision_box = {{-1.5, -1.5}, {1.5, 1.5}}
 storage_ent.selection_box = {{-1.5, -1.5}, {1.5, 1.5}}
+storage_ent.inventory_size = 49
 
 
 local storage_item = util.table.deepcopy(data.raw["item"]["dummy-item"])
@@ -61,6 +63,7 @@ local storage_recipe = {
 local import_ent = util.table.deepcopy(data.raw['logistic-container']['dummy-logistic-container'])
 import_ent.name = 'imp'
 import_ent.icon = "__pu-supply-chain__/graphics/icons/imp.png"
+import_ent.logistic_mode = "requester"
 import_ent.icon_size = 64
 import_ent.picture = {
   filename = "__pu-supply-chain__/graphics/entity/imp.png",
@@ -71,6 +74,8 @@ import_ent.collision_box = {{-1.5, -1.5}, {1.5, 1.5}}
 import_ent.selection_box = {{-1.5, -1.5}, {1.5, 1.5}}
 import_ent.animation = nil
 import_ent.render_not_in_network_icon = false
+import_ent.inventory_size = 40
+import_ent.logistic_slots_count = 10
 
 local import_item = util.table.deepcopy(data.raw["item"]["dummy-item"])
 import_item.name = "imp"
@@ -83,6 +88,7 @@ import_item.subgroup = "core"
 local export_ent = util.table.deepcopy(data.raw['logistic-container']['dummy-logistic-container'])
 export_ent.name = 'exp'
 export_ent.icon = "__pu-supply-chain__/graphics/icons/exp.png"
+export_ent.logistic_mode = "storage"
 export_ent.icon_size = 64
 export_ent.picture = {
   filename = "__pu-supply-chain__/graphics/entity/exp.png",
@@ -93,6 +99,7 @@ export_ent.collision_box = {{-1.5, -1.5}, {1.5, 1.5}}
 export_ent.selection_box = {{-1.5, -1.5}, {1.5, 1.5}}
 export_ent.animation = nil
 export_ent.render_not_in_network_icon = false
+export_ent.inventory_size = 40
 
 local export_item = util.table.deepcopy(data.raw["item"]["dummy-item"])
 export_item.name = "exp"

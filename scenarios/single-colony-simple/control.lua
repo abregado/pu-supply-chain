@@ -170,7 +170,7 @@ local on_player_confirm = function(player_index)
     safe_insert(player,{name='bbh',count=20})
     safe_insert(player,{name='bse',count=60})
     safe_insert(player,{name='bde',count=20})
-    safe_insert(player,{name='bde',count=15})
+    safe_insert(player,{name='bta',count=15})
     safe_insert(player,{name='mcg',count=1500})
     global.story_started = true
   else

@@ -54,4 +54,12 @@ data:extend({
     map_color={r=0, g=0, b=0},
     pollution_absorption_per_second = 0
   },
+  {
+    type = "flying-text",
+    name = "tutorial-flying-text",
+    flags = {"not-on-map", "placeable-off-grid"},
+    time_to_live = 120,
+    speed = 0.02,
+    text_alignment = "center"
+  },
 })
